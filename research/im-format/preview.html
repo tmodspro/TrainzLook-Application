@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>IM spike</title>
+<style>html,body{margin:0;height:100%;background:#303030;overflow:hidden}#i{position:fixed;top:8px;left:8px;color:#ddd;font:12px monospace}</style>
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
+</head><body><div id="i">loading…</div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
+const r = new THREE.WebGLRenderer({ antialias: true }); r.setSize(innerWidth, innerHeight); document.body.appendChild(r.domElement);
+r.outputColorSpace = THREE.SRGBColorSpace;
+const sc = new THREE.Scene(); sc.background = new THREE.Color(0x3a3a3a);
+const cam = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 500); cam.position.set(14, 5, 10);
+const oc = new OrbitControls(cam, r.domElement); oc.target.set(0, 2, 0);
+sc.add(new THREE.HemisphereLight(0xffffff, 0x444444, 2.2)); const dl = new THREE.DirectionalLight(0xffffff, 1.5); dl.position.set(5, 10, 7); sc.add(dl);
+sc.add(new THREE.GridHelper(40, 40, 0x555555, 0x444444));
+const flip = new URLSearchParams(location.search).has('flip');
+new MTLLoader().load('model.mtl', m => { m.preload();
+  new OBJLoader().setMaterials(m).load('model.obj', o => {
+    o.traverse(c => { if (c.isMesh) { const ms = [].concat(c.material); ms.forEach(x => { if (x.map) { x.map.flipY = !flip; x.map.colorSpace = THREE.SRGBColorSpace; x.map.needsUpdate = true; } x.side = THREE.DoubleSide; }); } });
+    sc.add(o); document.getElementById('i').textContent = 'flipY=' + !flip; });
+});
+(function a() { requestAnimationFrame(a); oc.update(); r.render(sc, cam); })();
+addEventListener('resize', () => { cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); r.setSize(innerWidth, innerHeight); });
+</script></body></html>
