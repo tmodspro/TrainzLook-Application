@@ -4,6 +4,10 @@ use std::collections::HashMap;
 use std::fmt;
 use std::path::{Path, PathBuf};
 
+pub mod im;
+pub use im::ImFile;
+use im::TopChunk;
+
 #[derive(Debug)]
 pub struct Error {
     pub offset: usize,
@@ -50,24 +54,24 @@ pub struct Attachment {
 }
 
 /// Bounds-checked little-endian reader; offsets stay absolute so errors point into the file.
-struct Reader<'a> {
-    data: &'a [u8],
-    pos: usize,
+pub(crate) struct Reader<'a> {
+    pub(crate) data: &'a [u8],
+    pub(crate) pos: usize,
 }
 
 impl<'a> Reader<'a> {
-    fn err<T>(&self, msg: impl Into<String>) -> Result<T, Error> {
+    pub(crate) fn err<T>(&self, msg: impl Into<String>) -> Result<T, Error> {
         Err(Error {
             offset: self.pos,
             msg: msg.into(),
         })
     }
 
-    fn done(&self) -> bool {
+    pub(crate) fn done(&self) -> bool {
         self.pos >= self.data.len()
     }
 
-    fn take(&mut self, n: usize) -> Result<&'a [u8], Error> {
+    pub(crate) fn take(&mut self, n: usize) -> Result<&'a [u8], Error> {
         match self
             .pos
             .checked_add(n)
@@ -82,15 +86,15 @@ impl<'a> Reader<'a> {
         }
     }
 
-    fn u32(&mut self) -> Result<u32, Error> {
+    pub(crate) fn u32(&mut self) -> Result<u32, Error> {
         Ok(u32::from_le_bytes(self.take(4)?.try_into().unwrap()))
     }
 
-    fn count(&mut self) -> Result<usize, Error> {
+    pub(crate) fn count(&mut self) -> Result<usize, Error> {
         Ok(self.u32()? as usize)
     }
 
-    fn f32s(&mut self, n: usize) -> Result<Vec<f32>, Error> {
+    pub(crate) fn f32s(&mut self, n: usize) -> Result<Vec<f32>, Error> {
         let bytes = self.take(n * 4)?;
         Ok(bytes
             .as_chunks::<4>()
@@ -101,7 +105,7 @@ impl<'a> Reader<'a> {
     }
 
     /// Fixed-size, NUL-padded text.
-    fn text(&mut self, n: usize) -> Result<String, Error> {
+    pub(crate) fn text(&mut self, n: usize) -> Result<String, Error> {
         let bytes = self.take(n)?;
         let end = bytes.iter().position(|&b| b == 0).unwrap_or(bytes.len());
         // Latin-1: author paths can contain non-UTF-8 bytes.
@@ -109,12 +113,12 @@ impl<'a> Reader<'a> {
     }
 
     /// u32 length followed by NUL-padded text.
-    fn string(&mut self) -> Result<String, Error> {
+    pub(crate) fn string(&mut self) -> Result<String, Error> {
         let n = self.count()?;
         self.text(n)
     }
 
-    fn version(&mut self, tag: &str, want: u32) -> Result<(), Error> {
+    pub(crate) fn version(&mut self, tag: &str, want: u32) -> Result<(), Error> {
         let v = self.u32()?;
         if v != want {
             self.pos -= 4;
@@ -124,7 +128,7 @@ impl<'a> Reader<'a> {
     }
 
     /// Reads `tag, u32 size, payload` and returns a reader limited to the payload.
-    fn chunk(&mut self) -> Result<([u8; 4], Reader<'a>), Error> {
+    pub(crate) fn chunk(&mut self) -> Result<([u8; 4], Reader<'a>), Error> {
         let tag: [u8; 4] = self.take(4)?.try_into().unwrap();
         let size = self.count()?;
         let start = self.pos;
@@ -138,7 +142,7 @@ impl<'a> Reader<'a> {
         ))
     }
 
-    fn expect_chunk(&mut self, want: &[u8; 4]) -> Result<Reader<'a>, Error> {
+    pub(crate) fn expect_chunk(&mut self, want: &[u8; 4]) -> Result<Reader<'a>, Error> {
         let at = self.pos;
         let (tag, payload) = self.chunk()?;
         if &tag != want {
@@ -155,8 +159,8 @@ fn tag_str(tag: &[u8; 4]) -> String {
     tag.iter().map(|&b| b as char).collect()
 }
 
-/// Parses a `.im` file (`JIRF` / `IDXM`). Input is untrusted: every count is bounds-checked.
-pub fn parse_im(data: &[u8]) -> Result<Mesh, Error> {
+/// Checks the `JIRF` / `IDXM` header and returns a reader at the first chunk.
+pub(crate) fn header(data: &[u8]) -> Result<Reader<'_>, Error> {
     let mut r = Reader { data, pos: 0 };
     if r.take(4)? != b"JIRF" {
         return Err(Error {
@@ -181,27 +185,34 @@ pub fn parse_im(data: &[u8]) -> Result<Mesh, Error> {
             msg: "not an indexed mesh (missing IDXM)".into(),
         });
     }
+    Ok(r)
+}
 
+/// Parses a `.im` file (`JIRF` / `IDXM`) for viewing. Input is untrusted: every count is bounds-checked.
+pub fn parse_im(data: &[u8]) -> Result<Mesh, Error> {
+    let file = ImFile::parse(data)?;
     let mut mesh = Mesh {
         bbox: [[0.0; 3]; 2],
         parts: Vec::new(),
         attachments: Vec::new(),
     };
-    while !r.done() {
-        let (tag, mut c) = r.chunk()?;
-        match &tag {
-            b"INFO" => {
-                c.version("INFO", 104)?;
-                c.take(0x28)?;
-                let b = c.f32s(6)?;
-                mesh.bbox = [[b[0], b[1], b[2]], [b[3], b[4], b[5]]];
+    for c in &file.chunks {
+        match c {
+            TopChunk::Info(raw) => {
+                let f = |o: usize| f32::from_le_bytes(raw[o..o + 4].try_into().unwrap());
+                mesh.bbox = [[f(0x2C), f(0x30), f(0x34)], [f(0x38), f(0x3C), f(0x40)]];
             }
-            b"CHNK" => {
-                c.version("CHNK", 100)?;
-                c.u32()?; // chunk index
-                mesh.parts.push(parse_part(&mut c)?);
-            }
-            b"ATCH" => {
+            TopChunk::Part(p) => mesh.parts.push(Part {
+                material: im::text(&p.material),
+                textures: p.textures.iter().map(|t| im::text(&t.path)).collect(),
+                bone: (!p.bone.is_empty()).then(|| im::text(&p.bone)),
+                positions: p.verts.iter().flat_map(|v| [v[0], v[1], v[2]]).collect(),
+                uvs: p.verts.iter().flat_map(|v| [v[3], v[4]]).collect(),
+                normals: p.normals.iter().flatten().copied().collect(),
+                indices: p.indices.clone(),
+            }),
+            TopChunk::Other(tag, raw) if tag.eq(b"ATCH") => {
+                let mut c = Reader { data: raw, pos: 0 };
                 c.version("ATCH", 100)?;
                 for _ in 0..c.u32()? {
                     let name = c.string()?;
@@ -214,67 +225,6 @@ pub fn parse_im(data: &[u8]) -> Result<Mesh, Error> {
         }
     }
     Ok(mesh)
-}
-
-fn parse_part(c: &mut Reader) -> Result<Part, Error> {
-    let mut m = c.expect_chunk(b"MATL")?;
-    m.version("MATL", 103)?;
-    let material = m.string()?;
-    m.take(16 * 4)?; // colours, shininess, flags: semantics not verified yet
-    let mut textures = Vec::new();
-    for _ in 0..m.u32()? {
-        m.take(4)?; // texture slot, 1 = diffuse in every sample so far
-        textures.push(m.string()?);
-        m.take(4)?; // blend amount
-    }
-
-    let mut g = c.expect_chunk(b"GEOM")?;
-    g.version("GEOM", 201)?;
-    g.take(4)?;
-    let has_tangents = g.u32()? != 0;
-    g.take(4)?; // bounding radius
-    let nv = g.count()?;
-    let nt = g.count()?;
-    let ni = g.count()?;
-    g.take(8)?; // triangle count again, skin info
-    let bone_len = g.count()?;
-    if ni != nt * 3 {
-        return g.err(format!("index count {ni} is not 3 x triangle count {nt}"));
-    }
-    let bone = if bone_len > 0 {
-        Some(g.text(bone_len)?)
-    } else {
-        None
-    };
-
-    let verts = g.f32s(nv * 5)?;
-    let indices: Vec<u16> = g
-        .take(ni * 2)?
-        .as_chunks::<2>()
-        .0
-        .iter()
-        .map(|b| u16::from_le_bytes(*b))
-        .collect();
-    if let Some(i) = indices.iter().find(|&&i| i as usize >= nv) {
-        return g.err(format!("index {i} out of range for {nv} vertices"));
-    }
-    let normals = g.f32s(nv * 3)?;
-    // shortcut: face normals and tangents are skipped; read tangents when normal-mapped materials land (roadmap phase 4).
-    g.take(nt * 12 + if has_tangents { nv * 12 } else { 0 })?;
-    if !g.done() {
-        return g.err("unexpected trailing data in GEOM");
-    }
-
-    let verts = verts.as_chunks::<5>().0;
-    Ok(Part {
-        material,
-        textures,
-        bone,
-        positions: verts.iter().flat_map(|v| [v[0], v[1], v[2]]).collect(),
-        uvs: verts.iter().flat_map(|v| [v[3], v[4]]).collect(),
-        normals,
-        indices,
-    })
 }
 
 /// Trainz resolves a MATL reference by file name only, beside the mesh: `mc.texture` -> `<dir>/mc.texture.txt`.

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>TrainzLook logo</title>
+  <!-- C "Focus Frame": camera focus brackets framing a commuter-train face (windows + headlights cut out). -->
+  <path fill="#000" d="M24 72V44Q24 24 44 24H72V44H44V72Z M184 24H212Q232 24 232 44V72H212V44H184Z M232 184V212Q232 232 212 232H184V212H212V184Z M72 232H44Q24 232 24 212V184H44V212H72Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M100 64H156Q184 64 184 92V188Q184 200 172 200H84Q72 200 72 188V92Q72 64 100 64Z M90 92H122V132H90Z M134 92H166V132H134Z M90 168A10 10 0 1 0 110 168A10 10 0 1 0 90 168Z M146 168A10 10 0 1 0 166 168A10 10 0 1 0 146 168Z"/>
+</svg>

@@ -64,7 +64,7 @@ Chunk level atas yang ditemukan: `INFO v104`, `CHNK v100` (×N), `SKEL v100` (op
 | Offset payload | Isi |
 |---|---|
 | 0x00 | u32 version = 104 |
-| 0x04–0x1C | flag / nilai 0 & 1.0 (belum penting) |
+| 0x04–0x1C | kemungkinan quaternion (x,y,z,w) + posisi; selalu (0,0,0,1) + (0,0,0) di 44/44 file korpus, jadi vertex sudah di posisi akhir |
 | 0x20 | u32 jumlah CHNK |
 | 0x2C | float3 bbox min |
 | 0x38 | float3 bbox max |
@@ -117,7 +117,7 @@ Header 40 byte:
 u32 version (201)
 u32 4                ; konstan (format/stride id)
 u32 hasTangents      ; 1 = ada array tangen, 0 = tidak
-f32 boundingRadius
+f32 surfaceArea      ; total triangle area (m²); verified exact on 272/272 corpus chunks (earlier misread as a radius)
 u32 vertexCount  (nv)
 u32 triangleCount (nt)
 u32 indexCount   (ni = nt*3)
@@ -139,7 +139,7 @@ Payload setelah header (berurutan):
 
 Rumus ukuran: `40 + boneNameLen + nv*20 + ni*2 + nv*12 + nt*12 + (hasTangents ? nv*12 : 0)` — cocok 272/272 chunk.
 
-UV: konvensi OpenGL (tanpa flip) — terbukti visual pada spike three.js (teks livery terbaca benar).
+UV: konvensi **DirectX — v=0 di baris atas gambar**. Di three.js berarti `texture.flipY = false`. Dibandingkan langsung dengan PEV Mesh Viewer pada TKK-8500: dengan `flipY = true` body tampil hitam bergaris, dengan `false` silver + strip merah-kuning sesuai aslinya. (Koreksi 2026-10-20: versi awal dokumen ini salah menyimpulkan OpenGL dari spike.)
 
 ### 4.6 ATCH (v100)
 
@@ -150,7 +150,14 @@ per attachment: u32 len, char name[len], f32[12]  (matriks rotasi 3x3 + posisi x
 
 Sampel: `a.bog0 (0,-6.838,0)`, `a.bog1 (0,6.951,0)`, `a.limfront`, `a.limback`, `a.load0`, `a.cabfront`, `a.cabback`.
 
-### 4.7 Belum dipetakan
+### 4.7 Menulis `.im` (dipakai fitur merge)
+
+- **String** (nama material, path tekstur, nama bone) dipadding NUL ke kelipatan 4, **tanpa terminator wajib**: `RubyTMIX_Output\rtm_0001.texture` (32 karakter) disimpan tepat 32 byte.
+- **Nomor CHNK** berurutan 0..n-1; **INFO +0x20** = jumlah CHNK; bbox INFO mencakup semua vertex.
+- Writer TrainzLook (`crates/trainz-formats/src/im.rs`) menyimpan semua byte yang tidak diubah apa adanya; `im-inspect` memverifikasi round-trip byte-identik pada seluruh korpus (43/43).
+- File hasil merge terbaca oleh PEV Mesh Viewer.
+
+### 4.8 Belum dipetakan
 
 - `SKEL`, `INFL` detail (skinning, 12 file), file `.kin` (animasi, 13 file lokal).
 - `.texture` biner TANE (`JIRF … MMTF/INFO/MMAP`, dxt1/3/5) — **tidak ada sampel lokal**; butuh contoh hasil compile CM.

@@ -1,0 +1,46 @@
+{
+  "brand": "TrainzLook",
+  "tagline": "Lihat tekstur Trainz-mu berubah secara realtime",
+  "brief": "Viewer mesh Trainz bergaya Blender dengan texture replace & hot reload realtime, untuk repainter livery kereta (komunitas Indonesia: KRL, Indorails). Harus terasa presisi, cepat, teknis, modern dan ramah kreator.",
+  "adjectives": [
+    "presisi",
+    "cepat",
+    "teknis",
+    "modern"
+  ],
+  "criteria": "Khas di antara tool 3D dan simulator, terbaca di 16 px sebagai ikon app Windows, bekerja dalam satu warna, cocok dengan UI gelap gaya Blender.",
+  "industry": "software",
+  "nav": [
+    "Fitur",
+    "Download",
+    "Panduan"
+  ],
+  "brand_color": "#FF8A00",
+  "greyscale": false,
+  "designer": "TrainzLook",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "Rail Eye",
+      "symbol": "../trainzlook-symbol.svg",
+      "lockup": "../trainzlook-horizontal.svg",
+      "symbol_on_tile": "../exports/symbol/trainzlook-symbol-app-icon.svg",
+      "lockup_on_dark": "../trainzlook-horizontal-dark.svg",
+      "tile_color": "#1E1F22",
+      "idea": "Penampang rel kereta dengan lensa di kepala rel: Trainz + Look dalam satu siluet.",
+      "rationale": [
+        "Profil rel dikenali langsung oleh komunitas kereta, dan tidak ada di library 1.400+ logo",
+        "Lensa di kepala rel = melihat; siluet tetap jelas di 16 px",
+        "Signal Orange di atas Ballast Graphite, senada dengan UI gelap gaya Blender"
+      ],
+      "stacked": "../trainzlook-stacked.svg"
+    }
+  ],
+  "recommendation": "Rail Eye — sederhana, khas, dan paling tahan di ukuran ikon.",
+  "next_steps": [
+    "Pasang ikon di aplikasi TrainzLook",
+    "Cek merek dagang sebelum dipakai komersial",
+    "Pakai panduan untuk materi rilis"
+  ],
+  "final": true
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>TrainzLook logo</title>
+  <!-- Rail Eye: flat-bottom rail profile with a lens cut into the rail head. Foot slopes are exactly 15°. -->
+  <path fill="#FF8A00" fill-rule="evenodd" d="M128 34Q178 34 180 56V86Q180 98 168 98H154Q142 98 142 112V166Q142 182 160 188L216 203Q226 207 226 216V222H30V216Q30 207 40 203L96 188Q114 182 114 166V112Q114 98 102 98H88Q76 98 76 86V56Q78 34 128 34Z M112 66A16 16 0 1 0 144 66A16 16 0 1 0 112 66Z"/>
+</svg>

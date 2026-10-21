@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- B "Rail Eye": the cross-section of a flat-bottom rail, with a lens cut into the rail head. -->
+  <path fill="#000" fill-rule="evenodd" d="M96 32H160Q180 32 180 52V84Q180 96 168 96H152Q144 96 144 108V168Q144 184 160 192L212 210Q220 213 220 220V224H36V220Q36 213 44 210L96 192Q112 184 112 168V108Q112 96 104 96H88Q76 96 76 84V52Q76 32 96 32Z M110 64A18 18 0 1 0 146 64A18 18 0 1 0 110 64Z"/>
+</svg>

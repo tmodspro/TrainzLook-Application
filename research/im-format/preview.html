@@ -15,7 +15,7 @@ const cam = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.1, 500);
 const oc = new OrbitControls(cam, r.domElement); oc.target.set(0, 2, 0);
 sc.add(new THREE.HemisphereLight(0xffffff, 0x444444, 2.2)); const dl = new THREE.DirectionalLight(0xffffff, 1.5); dl.position.set(5, 10, 7); sc.add(dl);
 sc.add(new THREE.GridHelper(40, 40, 0x555555, 0x444444));
-const flip = new URLSearchParams(location.search).has('flip');
+const flip = !new URLSearchParams(location.search).has('glflip'); // Trainz UVs are DirectX-style
 new MTLLoader().load('model.mtl', m => { m.preload();
   new OBJLoader().setMaterials(m).load('model.obj', o => {
     o.traverse(c => { if (c.isMesh) { const ms = [].concat(c.material); ms.forEach(x => { if (x.map) { x.map.flipY = !flip; x.map.colorSpace = THREE.SRGBColorSpace; x.map.needsUpdate = true; } x.side = THREE.DoubleSide; }); } });

@@ -1,2 +1,5 @@
 /target
 __pycache__/
+
+# Poster built from the TKK-8500 renders: the payware exception covers landing/public/captures only
+/branding/poster/apa-itu-trainzlook/

@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="984" viewBox="0 0 1600 984"><defs><filter id="grey"><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="1600" height="984" fill="#f7f7f4"/><text x="60" y="78" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="40" font-weight="700" fill="#161616">TrainzLook — konsep logo</text><text x="60" y="116" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#6b6b6b">Concepts for review — pick a direction (or tell me what you like in each).</text><rect x="60" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="90" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- A "Wheel Eye": an eyelid arc over a rail; the pupil is a wheel standing on that rail; sleepers sit below. -->
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M20 160Q128 -32 236 160H206Q128 12 50 160Z"/>
+  <path transform="translate(0 -10)" fill="#000" d="M20 160H236V178H20Z M40 190H80V206H40Z M108 190H148V206H108Z M176 190H216V206H176Z"/>
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M128 100A30 30 0 1 0 128 160A30 30 0 1 0 128 100Z M128 121A9 9 0 1 1 128 139A9 9 0 1 1 128 121Z"/>
+</svg>
+</g><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 256" x="90" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- A "Wheel Eye": an eyelid arc over a rail; the pupil is a wheel standing on that rail; sleepers sit below. -->
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M20 160Q128 -32 236 160H206Q128 12 50 160Z"/>
+  <path transform="translate(0 -10)" fill="#000" d="M20 160H236V178H20Z M40 190H80V206H40Z M108 190H148V206H108Z M176 190H216V206H176Z"/>
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M128 100A30 30 0 1 0 128 160A30 30 0 1 0 128 100Z M128 121A9 9 0 1 1 128 139A9 9 0 1 1 128 121Z"/>
+  <!-- exploration only: live text, outlines to be constructed for the final -->
+  <text x="292" y="166" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="112" font-weight="600" letter-spacing="-2">TrainzLook</text>
+</svg>
+</g><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="90" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- A "Wheel Eye": an eyelid arc over a rail; the pupil is a wheel standing on that rail; sleepers sit below. -->
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M20 160Q128 -32 236 160H206Q128 12 50 160Z"/>
+  <path transform="translate(0 -10)" fill="#000" d="M20 160H236V178H20Z M40 190H80V206H40Z M108 190H148V206H108Z M176 190H216V206H176Z"/>
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M128 100A30 30 0 1 0 128 160A30 30 0 1 0 128 100Z M128 121A9 9 0 1 1 128 139A9 9 0 1 1 128 121Z"/>
+</svg>
+</g><text x="122" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="180" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- A "Wheel Eye": an eyelid arc over a rail; the pupil is a wheel standing on that rail; sleepers sit below. -->
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M20 160Q128 -32 236 160H206Q128 12 50 160Z"/>
+  <path transform="translate(0 -10)" fill="#000" d="M20 160H236V178H20Z M40 190H80V206H40Z M108 190H148V206H108Z M176 190H216V206H176Z"/>
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M128 100A30 30 0 1 0 128 160A30 30 0 1 0 128 100Z M128 121A9 9 0 1 1 128 139A9 9 0 1 1 128 121Z"/>
+</svg>
+</g><text x="196" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="238" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- A "Wheel Eye": an eyelid arc over a rail; the pupil is a wheel standing on that rail; sleepers sit below. -->
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M20 160Q128 -32 236 160H206Q128 12 50 160Z"/>
+  <path transform="translate(0 -10)" fill="#000" d="M20 160H236V178H20Z M40 190H80V206H40Z M108 190H148V206H108Z M176 190H216V206H176Z"/>
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M128 100A30 30 0 1 0 128 160A30 30 0 1 0 128 100Z M128 121A9 9 0 1 1 128 139A9 9 0 1 1 128 121Z"/>
+</svg>
+</g><text x="246" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="90.0" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">A · Wheel Eye</text><text x="90.0" y="814" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Pupil mata = roda kereta yang berdiri di</text><text x="90.0" y="840" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">atas rel.</text><rect x="562.667" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#161616" stroke-width="2"/><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="592.667" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- B "Rail Eye": flat-bottom rail profile (crowned head, slim web, wide foot) with a lens cut into the head. -->
+  <path fill="#000" fill-rule="evenodd" d="M128 34Q178 34 180 56V86Q180 98 168 98H154Q142 98 142 112V166Q142 182 160 188L216 203Q226 207 226 216V222H30V216Q30 207 40 203L96 188Q114 182 114 166V112Q114 98 102 98H88Q76 98 76 86V56Q78 34 128 34Z M112 66A16 16 0 1 0 144 66A16 16 0 1 0 112 66Z"/>
+</svg>
+</g><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 256" x="592.667" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- B "Rail Eye": flat-bottom rail profile (crowned head, slim web, wide foot) with a lens cut into the head. -->
+  <path fill="#000" fill-rule="evenodd" d="M128 34Q178 34 180 56V86Q180 98 168 98H154Q142 98 142 112V166Q142 182 160 188L216 203Q226 207 226 216V222H30V216Q30 207 40 203L96 188Q114 182 114 166V112Q114 98 102 98H88Q76 98 76 86V56Q78 34 128 34Z M112 66A16 16 0 1 0 144 66A16 16 0 1 0 112 66Z"/>
+  <!-- exploration only: live text, outlines to be constructed for the final -->
+  <text x="292" y="166" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="112" font-weight="600" letter-spacing="-2">TrainzLook</text>
+</svg>
+</g><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="592.667" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- B "Rail Eye": flat-bottom rail profile (crowned head, slim web, wide foot) with a lens cut into the head. -->
+  <path fill="#000" fill-rule="evenodd" d="M128 34Q178 34 180 56V86Q180 98 168 98H154Q142 98 142 112V166Q142 182 160 188L216 203Q226 207 226 216V222H30V216Q30 207 40 203L96 188Q114 182 114 166V112Q114 98 102 98H88Q76 98 76 86V56Q78 34 128 34Z M112 66A16 16 0 1 0 144 66A16 16 0 1 0 112 66Z"/>
+</svg>
+</g><text x="624.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="682.667" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- B "Rail Eye": flat-bottom rail profile (crowned head, slim web, wide foot) with a lens cut into the head. -->
+  <path fill="#000" fill-rule="evenodd" d="M128 34Q178 34 180 56V86Q180 98 168 98H154Q142 98 142 112V166Q142 182 160 188L216 203Q226 207 226 216V222H30V216Q30 207 40 203L96 188Q114 182 114 166V112Q114 98 102 98H88Q76 98 76 86V56Q78 34 128 34Z M112 66A16 16 0 1 0 144 66A16 16 0 1 0 112 66Z"/>
+</svg>
+</g><text x="698.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="740.667" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- B "Rail Eye": flat-bottom rail profile (crowned head, slim web, wide foot) with a lens cut into the head. -->
+  <path fill="#000" fill-rule="evenodd" d="M128 34Q178 34 180 56V86Q180 98 168 98H154Q142 98 142 112V166Q142 182 160 188L216 203Q226 207 226 216V222H30V216Q30 207 40 203L96 188Q114 182 114 166V112Q114 98 102 98H88Q76 98 76 86V56Q78 34 128 34Z M112 66A16 16 0 1 0 144 66A16 16 0 1 0 112 66Z"/>
+</svg>
+</g><text x="748.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="592.6666666666667" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">B · Rail Eye</text><text x="592.6666666666667" y="808" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#161616" letter-spacing="1.5">RECOMMENDED</text><text x="592.6666666666667" y="842" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Penampang rel, dengan lensa di kepala rel.</text><rect x="1065.33" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="1095.33" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- C "Focus Frame": camera focus brackets framing a commuter-train face (windows + headlights cut out). -->
+  <path fill="#000" d="M24 72V44Q24 24 44 24H72V44H44V72Z M184 24H212Q232 24 232 44V72H212V44H184Z M232 184V212Q232 232 212 232H184V212H212V184Z M72 232H44Q24 232 24 212V184H44V212H72Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M100 64H156Q184 64 184 92V188Q184 200 172 200H84Q72 200 72 188V92Q72 64 100 64Z M90 92H122V132H90Z M134 92H166V132H134Z M90 168A10 10 0 1 0 110 168A10 10 0 1 0 90 168Z M146 168A10 10 0 1 0 166 168A10 10 0 1 0 146 168Z"/>
+</svg>
+</g><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 256" x="1095.33" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- C "Focus Frame": camera focus brackets framing a commuter-train face (windows + headlights cut out). -->
+  <path fill="#000" d="M24 72V44Q24 24 44 24H72V44H44V72Z M184 24H212Q232 24 232 44V72H212V44H184Z M232 184V212Q232 232 212 232H184V212H212V184Z M72 232H44Q24 232 24 212V184H44V212H72Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M100 64H156Q184 64 184 92V188Q184 200 172 200H84Q72 200 72 188V92Q72 64 100 64Z M90 92H122V132H90Z M134 92H166V132H134Z M90 168A10 10 0 1 0 110 168A10 10 0 1 0 90 168Z M146 168A10 10 0 1 0 166 168A10 10 0 1 0 146 168Z"/>
+  <!-- exploration only: live text, outlines to be constructed for the final -->
+  <text x="292" y="166" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="112" font-weight="600" letter-spacing="-2">TrainzLook</text>
+</svg>
+</g><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="1095.33" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- C "Focus Frame": camera focus brackets framing a commuter-train face (windows + headlights cut out). -->
+  <path fill="#000" d="M24 72V44Q24 24 44 24H72V44H44V72Z M184 24H212Q232 24 232 44V72H212V44H184Z M232 184V212Q232 232 212 232H184V212H212V184Z M72 232H44Q24 232 24 212V184H44V212H72Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M100 64H156Q184 64 184 92V188Q184 200 172 200H84Q72 200 72 188V92Q72 64 100 64Z M90 92H122V132H90Z M134 92H166V132H134Z M90 168A10 10 0 1 0 110 168A10 10 0 1 0 90 168Z M146 168A10 10 0 1 0 166 168A10 10 0 1 0 146 168Z"/>
+</svg>
+</g><text x="1127.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="1185.33" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- C "Focus Frame": camera focus brackets framing a commuter-train face (windows + headlights cut out). -->
+  <path fill="#000" d="M24 72V44Q24 24 44 24H72V44H44V72Z M184 24H212Q232 24 232 44V72H212V44H184Z M232 184V212Q232 232 212 232H184V212H212V184Z M72 232H44Q24 232 24 212V184H44V212H72Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M100 64H156Q184 64 184 92V188Q184 200 172 200H84Q72 200 72 188V92Q72 64 100 64Z M90 92H122V132H90Z M134 92H166V132H134Z M90 168A10 10 0 1 0 110 168A10 10 0 1 0 90 168Z M146 168A10 10 0 1 0 166 168A10 10 0 1 0 146 168Z"/>
+</svg>
+</g><text x="1201.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g filter="url(#grey)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" x="1243.33" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title>TrainzLook logo</title>
+  <!-- C "Focus Frame": camera focus brackets framing a commuter-train face (windows + headlights cut out). -->
+  <path fill="#000" d="M24 72V44Q24 24 44 24H72V44H44V72Z M184 24H212Q232 24 232 44V72H212V44H184Z M232 184V212Q232 232 212 232H184V212H212V184Z M72 232H44Q24 232 24 212V184H44V212H72Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M100 64H156Q184 64 184 92V188Q184 200 172 200H84Q72 200 72 188V92Q72 64 100 64Z M90 92H122V132H90Z M134 92H166V132H134Z M90 168A10 10 0 1 0 110 168A10 10 0 1 0 90 168Z M146 168A10 10 0 1 0 166 168A10 10 0 1 0 146 168Z"/>
+</svg>
+</g><text x="1251.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="1095.3333333333335" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">C · Focus Frame</text><text x="1095.3333333333335" y="814" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Bingkai fokus kamera membingkai wajah KRL.</text></svg>

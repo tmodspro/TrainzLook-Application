@@ -1,3 +1,15 @@
 [workspace]
 resolver = "3"
-members = ["crates/*"]
+members = ["crates/*", "app/src-tauri"]
+
+# See https://tauri.app/concept/size/#cargo-configuration
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true
+
+# Dev builds: optimise dependencies only (image decoding is ~10x slower unoptimised), keep our crates quick to rebuild.
+[profile.dev.package."*"]
+opt-level = 3

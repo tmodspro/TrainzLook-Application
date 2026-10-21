@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- A "Wheel Eye": an eyelid arc over a rail; the pupil is a wheel standing on that rail; sleepers sit below. -->
+  <path fill="#000" fill-rule="evenodd" d="M20 160Q128 -64 236 160H206Q128 -20 50 160Z"/>
+  <path fill="#000" d="M20 160H236V178H20Z M40 190H80V206H40Z M108 190H148V206H108Z M176 190H216V206H176Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M128 88A36 36 0 1 0 128 160A36 36 0 1 0 128 88Z M128 113A11 11 0 1 1 128 135A11 11 0 1 1 128 113Z"/>
+</svg>

@@ -1,0 +1,24 @@
+<svg fill="#ff8a00" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 918 188"><title>TrainzLook logo</title>
+  
+  <g transform="translate(-30 -34)"><!-- Rail Eye: flat-bottom rail profile with a lens cut into the rail head. Foot slopes are exactly 15°. -->
+  <path fill="#ff8a00" fill-rule="evenodd" d="M128 34Q178 34 180 56V86Q180 98 168 98H154Q142 98 142 112V166Q142 182 160 188L216 203Q226 207 226 216V222H30V216Q30 207 40 203L96 188Q114 182 114 166V112Q114 98 102 98H88Q76 98 76 86V56Q78 34 128 34Z M112 66A16 16 0 1 0 144 66A16 16 0 1 0 112 66Z"/></g>
+  <g transform="translate(244 19.2) scale(0.68)"><!-- Custom monoline geometric letters; stroke weight matches the rail web. x-height 80–180, caps 40–180. -->
+  <g fill="none" stroke="#ff8a00" stroke-width="22" stroke-linejoin="miter" stroke-miterlimit="4">
+    <path d="M0 51H96M48 40V180"/>
+    <path d="M111 80V180M111 134Q111 91 154 91H160"/>
+    <path d="M224 91A39 39 0 1 0 224 169A39 39 0 1 0 224 91ZM263 80V180"/>
+    <path d="M301 80V180"/>
+    <path d="M339 80V180M339 130A39 39 0 0 1 417 130V180"/>
+    <path d="M561 40V169H628"/>
+    <path d="M692 91A39 39 0 1 0 692 169A39 39 0 1 0 692 91Z"/>
+    <path d="M806 91A39 39 0 1 0 806 169A39 39 0 1 0 806 91Z"/>
+    <path d="M881 40V180"/>
+  </g>
+  <g fill="#ff8a00">
+    <circle cx="301" cy="50" r="12"/>
+    <!-- z as a flat shape: a stroked z would throw a miter spike into the L -->
+    <path d="M443 80H535V100L476 158H535V180H443V160L502 102H443Z"/>
+    <!-- k arms as flat-cut shapes so they stop exactly on the x-height and baseline -->
+    <path d="M888.5 154.1L968.2 80L935.8 80L873.5 137.9Z M874.8 137.1L938.3 180L977.7 180L887.2 118.9Z"/>
+  </g></g>
+</svg>

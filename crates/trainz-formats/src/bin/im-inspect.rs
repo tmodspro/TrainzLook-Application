@@ -1,9 +1,9 @@
 //! `im-inspect <file.im | folder>...`: details for a file, one summary line per mesh for a folder (recursive).
-//! Exits non-zero if any mesh fails to parse, so it doubles as the corpus validator.
+//! Exits non-zero if any mesh fails to parse or to round-trip byte for byte, so it doubles as the corpus validator.
 
 use std::path::{Path, PathBuf};
 use std::{env, fs, process};
-use trainz_formats::{Mesh, parse_im, parse_texture_txt, texture_txt_path};
+use trainz_formats::{ImFile, Mesh, parse_im, parse_texture_txt, texture_txt_path};
 
 fn main() {
     let args: Vec<PathBuf> = env::args_os().skip(1).map(PathBuf::from).collect();
@@ -22,10 +22,10 @@ fn main() {
             failed += 1;
         }
         for path in &files {
-            match fs::read(path)
-                .map_err(|e| e.to_string())
-                .and_then(|d| parse_im(&d).map_err(|e| e.to_string()))
-            {
+            match fs::read(path).map_err(|e| e.to_string()).and_then(|d| {
+                roundtrip(&d)?;
+                parse_im(&d).map_err(|e| e.to_string())
+            }) {
                 Ok(mesh) if detailed => print_details(path, &mesh),
                 Ok(mesh) => {
                     let (v, t) = totals(&mesh);
@@ -45,6 +45,20 @@ fn main() {
     if failed > 0 {
         eprintln!("{failed} failed");
         process::exit(1);
+    }
+}
+
+/// The editor's writer must reproduce an untouched file exactly; report the first differing byte otherwise.
+fn roundtrip(data: &[u8]) -> Result<(), String> {
+    let out = ImFile::parse(data).map_err(|e| e.to_string())?.to_bytes();
+    match out.iter().zip(data).position(|(a, b)| a != b) {
+        None if out.len() == data.len() => Ok(()),
+        at => Err(format!(
+            "round-trip differs at byte {:#x} (rewrite {} bytes, original {})",
+            at.unwrap_or(out.len().min(data.len())),
+            out.len(),
+            data.len()
+        )),
     }
 }
 

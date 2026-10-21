@@ -130,13 +130,13 @@ Asumsi: 1 developer penuh waktu. Estimasi dalam minggu.
 | Fase | Durasi | Isi | Kriteria selesai |
 |---|---|---|---|
 | **0. Riset & spike** | ✅ sebagian (1 mgg) | Spesifikasi `.im` terverifikasi, spike `im2obj` + preview three.js sukses render `body.im` | Sisa: kumpulkan korpus uji (PM, `.texture` TANE, mesh skinned, aset TRS22) |
-| **1. Core parser (Rust)** | 2 mgg — 🟡 `.im` + `.texture.txt` + `im-inspect` selesai (43/43 korpus); `config.txt` & export glTF belum | crate `trainz-formats`: `.im` (semua varian GEOM), MATL, ATCH, `.texture.txt`, parser `config.txt` (ACS); CLI `trainzlook inspect` / `export gltf` | 100% korpus lolos `im_survey`; output glTF identik dengan spike |
-| **2. App shell + viewport** | 3 mgg | Proyek Tauri, tema Blender, docking, buka file, render, kamera Blender, outliner, status bar | Buka `body.im` < 1 s, 60 fps, navigasi setara Blender |
-| **3. Texture Manager realtime** | 2 mgg | Texture Browser, watcher, hot reload, Replace Preview/Apply, backup, undo, validasi | Simpan dari Photoshop → viewport update < 300 ms; revert selalu memulihkan file asli |
+| **1. Core parser (Rust)** | 2 mgg — 🟡 `.im` baca **dan tulis** (lossless, round-trip byte-identik 44/44 korpus), `.texture.txt`, `im-inspect`; `config.txt` & export glTF belum | crate `trainz-formats`: `.im` (semua varian GEOM), MATL, ATCH, `.texture.txt`, parser `config.txt` (ACS); CLI `trainzlook inspect` / `export gltf` | 100% korpus lolos `im_survey`; output glTF identik dengan spike |
+| **2. App shell + viewport** | 3 mgg — 🟡 app Tauri jalan: buka `.im`, viewport, outliner, texture browser, sumbu + gizmo navigasi, installer NSIS; docking panel belum | Proyek Tauri, tema Blender, docking, buka file, render, kamera Blender, outliner, status bar | Buka `body.im` < 1 s, 60 fps, navigasi setara Blender |
+| **3. Texture Manager realtime** | 2 mgg — ✅ hot reload, Replace (dialog/drag-drop, konversi JPG/PNG/TGA/BMP, backup), Revert + Ctrl+Z, highlight tekstur↔mesh, panel validasi; mode Preview belum | Texture Browser, watcher, hot reload, Replace Preview/Apply, backup, undo, validasi | Simpan dari Photoshop → viewport update < 300 ms; revert selalu memulihkan file asli |
 | **4. Fidelity material** | 3 mgg | Shader semua tipe `m.*`, alpha terpisah, normal/env map, TGA/BMP/DDS, `.texture` TANE | Visual sebanding Mesh Viewer pada korpus |
 | **5. Mode traincar** | 3 mgg | `config.txt`, indeks kuid (scan folder), bogey + `reversed`, attachments, rel/ground/sky | TKK-8500 tampil lengkap dengan bogey `<kuid:1047762:100148>` |
-| **6. Fitur repainter** | 2 mgg | UV template export, livery preset, compare, screenshot/thumbnail | Alur repaint lengkap tanpa membuka Trainz |
-| **7. Rilis** | 2 mgg | Installer (MSI/NSIS), auto-update, file association, CM "Open With", lisensi (jika dijual), crash report, dokumentasi ID/EN | Beta publik |
+| **6. Fitur repainter** | 2 mgg — 🟡 UV template, thumbnail `ss.jpg`/`$screenshot$`, merge `.im` (import + gizmo Move/Rotate/Scale + undo), compare Before/After (tahan B), livery preset (`.trainzlook-livery`) selesai | UV template export, livery preset, compare, screenshot/thumbnail | Alur repaint lengkap tanpa membuka Trainz |
+| **7. Rilis** | 2 mgg — 🟡 installer NSIS (lisensi + publisher INDORAILS), file association `.im` (double-click / Open with) selesai | Installer (MSI/NSIS), auto-update, file association, CM "Open With", lisensi (jika dijual), crash report, dokumentasi ID/EN | Beta publik |
 
 Total ±17–18 minggu ke beta. **MVP yang bisa dipakai (Fase 1–3) ±7 minggu.**
 

@@ -133,3 +133,105 @@ fn resolves_texture_by_file_name_beside_mesh() {
     assert_eq!(kv["alpha"], "mc_a.tga");
     assert_eq!(kv["tile"], "st");
 }
+
+use trainz_formats::ImFile;
+
+/// Column-major 4x4, like three.js Matrix4.elements.
+fn matrix(scale: [f32; 3], translate: [f32; 3]) -> [f32; 16] {
+    let mut m = [0.0; 16];
+    m[0] = scale[0];
+    m[5] = scale[1];
+    m[10] = scale[2];
+    m[12..15].copy_from_slice(&translate);
+    m[15] = 1.0;
+    m
+}
+
+#[test]
+fn rewrites_untouched_files_byte_for_byte() {
+    for (bone, tangents) in [("", true), ("", false), ("b.r.body1", true)] {
+        let data = sample_im(bone, tangents, [0, 1, 2]);
+        assert_eq!(ImFile::parse(&data).unwrap().to_bytes(), data);
+    }
+}
+
+#[test]
+fn transform_moves_points_but_only_turns_normals() {
+    let mut im = ImFile::parse(&sample_im("", true, [0, 1, 2])).unwrap();
+    let part = im.parts_mut().next().unwrap();
+    part.transform(&matrix([2.0, 2.0, 2.0], [10.0, 0.0, 5.0]))
+        .unwrap();
+    assert_eq!(part.verts[1][..3], [12.0, 0.0, 5.0]);
+    assert_eq!(part.verts[1][3..], [1.0, 0.0], "UVs never change");
+    assert_eq!(
+        part.normals[0],
+        [0.0, 0.0, 1.0],
+        "normals ignore translation and uniform scale"
+    );
+    assert_eq!(
+        part.stored_area(),
+        2.0,
+        "a 0.5 m² triangle scaled 2x is 2 m²"
+    );
+    assert_eq!(part.indices, [0, 1, 2]);
+}
+
+#[test]
+fn mirroring_flips_winding_so_faces_stay_outward() {
+    let mut im = ImFile::parse(&sample_im("", true, [0, 1, 2])).unwrap();
+    let part = im.parts_mut().next().unwrap();
+    part.transform(&matrix([-1.0, 1.0, 1.0], [0.0; 3])).unwrap();
+    assert_eq!(part.indices, [0, 2, 1]);
+    // The rewound triangle's geometric normal must agree with the stored normal (+Z after a mirror in X).
+    let p = |i: u16| part.verts[i as usize];
+    let (a, b, c) = (p(part.indices[0]), p(part.indices[1]), p(part.indices[2]));
+    let z = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+    assert!(z > 0.0 && part.normals[0] == [0.0, 0.0, 1.0]);
+}
+
+#[test]
+fn rejects_a_collapsing_transform() {
+    let mut im = ImFile::parse(&sample_im("", true, [0, 1, 2])).unwrap();
+    assert!(
+        im.parts_mut()
+            .next()
+            .unwrap()
+            .transform(&matrix([1.0, 0.0, 1.0], [0.0; 3]))
+            .is_err()
+    );
+}
+
+#[test]
+fn appended_parts_are_numbered_on_and_counted_in_info() {
+    let mut base = ImFile::parse(&sample_im("", true, [0, 1, 2])).unwrap();
+    let extra = ImFile::parse(&sample_im("", false, [0, 1, 2])).unwrap();
+    let mut parts: Vec<_> = extra.parts().cloned().collect();
+    parts
+        .iter_mut()
+        .for_each(|p| p.transform(&matrix([1.0; 3], [0.0, 50.0, 0.0])).unwrap());
+    base.append_parts(parts).unwrap();
+
+    let bytes = base.to_bytes();
+    let reread = ImFile::parse(&bytes).unwrap();
+    assert_eq!(
+        reread.parts().map(|p| p.index).collect::<Vec<_>>(),
+        [0, 1, 2, 3]
+    );
+    let info = bytes.windows(4).position(|w| w == b"INFO").unwrap() + 8;
+    assert_eq!(
+        &bytes[info + 0x20..info + 0x24],
+        &4u32.to_le_bytes(),
+        "INFO chunk count"
+    );
+    let mesh = parse_im(&bytes).unwrap();
+    assert_eq!(mesh.parts.len(), 4);
+    assert_eq!(
+        mesh.bbox,
+        [[-1.0, -2.0, 0.0], [1.0, 51.0, 3.0]],
+        "bbox grows to cover the moved parts"
+    );
+    assert_eq!(
+        mesh.attachments[0].name, "a.bog0",
+        "chunks after the parts (ATCH) are kept"
+    );
+}

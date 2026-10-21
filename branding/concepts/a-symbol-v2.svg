@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- A "Rail Eye": two rails bowing apart into an eye; the pupil is a wheel seen end-on (hub cut out). -->
+  <path fill="#000" fill-rule="evenodd" d="M16 128Q128 28 240 128Q128 228 16 128Z M44 128Q128 60 212 128Q128 196 44 128Z"/>
+  <path fill="#000" fill-rule="evenodd" d="M128 90A38 38 0 1 0 128 166A38 38 0 1 0 128 90Z M128 116A12 12 0 1 1 128 140A12 12 0 1 1 128 116Z"/>
+</svg>

@@ -1,0 +1,8 @@
+{
+  "name": "trainzlook-root",
+  "private": true,
+  "description": "Forwards npm commands to the app in ./app, so `npm run tauri dev` works from the repo root",
+  "scripts": {
+    "tauri": "npm --prefix app run tauri --"
+  }
+}

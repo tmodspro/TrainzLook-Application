@@ -3,5 +3,6 @@ name = "trainz-formats"
 version = "0.1.0"
 edition = "2024"
 description = "Readers for Trainz asset formats (.im meshes, .texture.txt)"
+authors = ["INDORAILS"]
 license = "UNLICENSED"
 publish = false

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- A "Track Lens": a lens ring looking down a perspective track (rails + two sleepers). -->
+  <path fill="#000" fill-rule="evenodd" d="M128 16a112 112 0 1 0 0 224a112 112 0 1 0 0-224zM128 42a86 86 0 1 1 0 172a86 86 0 1 1 0-172z"/>
+  <path fill="#000" d="M78 184H100L120 72H112Z M156 184H178L144 72H136Z"/>
+  <path fill="#000" d="M86 142H170V156H86Z M102 104H154V114H102Z"/>
+</svg>

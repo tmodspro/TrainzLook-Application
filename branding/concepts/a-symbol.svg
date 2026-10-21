@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>TrainzLook logo</title>
+  <!-- A "Wheel Eye": an eyelid arc over a rail; the pupil is a wheel standing on that rail; sleepers sit below. -->
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M20 160Q128 -32 236 160H206Q128 12 50 160Z"/>
+  <path transform="translate(0 -10)" fill="#000" d="M20 160H236V178H20Z M40 190H80V206H40Z M108 190H148V206H108Z M176 190H216V206H176Z"/>
+  <path transform="translate(0 -10)" fill="#000" fill-rule="evenodd" d="M128 100A30 30 0 1 0 128 160A30 30 0 1 0 128 100Z M128 121A9 9 0 1 1 128 139A9 9 0 1 1 128 121Z"/>
+</svg>
