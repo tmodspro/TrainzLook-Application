@@ -1,0 +1,116 @@
+// Single source for everything the page states as fact. Copy only describes features already built
+// in app/ (docs/03-landing-page.md §5); add a feature here when it ships, not before.
+
+export const site = {
+  name: "TrainzLook",
+  publisher: "INDORAILS",
+  tagline: "Lihat tekstur Trainz-mu berubah secara realtime",
+  description:
+    "Viewer mesh .im bergaya Blender untuk repainter Trainz. Simpan tekstur dari Photoshop atau GIMP, keretanya langsung berubah. Gratis untuk Windows, dari INDORAILS.",
+  url: null as string | null, // site origin, e.g. "https://trainzlook.example"; waits on hosting (docs/03-landing-page.md §11 #3)
+  // shortcut: null = not decided yet (docs/03-landing-page.md §11), the page then says the link is coming; fill from the real release build.
+  download: {
+    version: "0.1.0",
+    fileName: "TrainzLook_0.1.0_x64-setup.exe",
+    url: null as string | null,
+    size: null as string | null,
+    sha256: null as string | null,
+  },
+  requirements: [
+    "Windows 10 atau 11, 64-bit",
+    "Microsoft Edge WebView2 (sudah ada di Windows 11; installer memasangnya bila belum ada, perlu internet)",
+    "Kartu grafis dengan WebGL 2",
+  ],
+};
+
+export type Feature = { scene: string; title: string; body: string; short?: string; meta?: string };
+
+// Sticky tour (scene ids match the Remotion scenes planned in §5)
+export const tour: Feature[] = [
+  {
+    scene: "S1",
+    short: "Buka .im",
+    title: "Buka .im, langsung tampil",
+    body: "Seret file .im ke jendela atau tekan Ctrl+O. Mesh, daftar material, dan semua tekstur yang dipakai muncul bersamaan.",
+  },
+  {
+    scene: "S2",
+    short: "Hot reload",
+    title: "Simpan di Photoshop, kereta ikut berubah",
+    body: "TrainzLook mengawasi folder mesh. Begitu tekstur disimpan dari Photoshop atau GIMP, viewport memuat ulang sendiri. Tidak ada yang perlu ditutup lalu dibuka lagi.",
+  },
+  {
+    scene: "S3",
+    short: "Replace + backup",
+    title: "Ganti tekstur tanpa takut",
+    body: "Seret gambar ke tile tekstur. Gambar dikonversi ke nama dan format asli supaya .texture.txt tetap valid, dan file lama disalin ke backup lebih dulu. Revert atau Ctrl+Z untuk kembali.",
+  },
+  {
+    scene: "S4",
+    short: "Sorot tekstur",
+    title: "Tekstur mana dipakai di mana",
+    body: "Pilih sebuah tekstur, bagian kereta yang memakainya langsung tersorot di viewport. Tekstur yang tidak dipakai mesh ditandai redup.",
+  },
+  {
+    scene: "S7",
+    short: "Gabung mesh",
+    title: "Gabungkan dua mesh",
+    body: "Bawa .im kedua, atur letaknya dengan gizmo Move, Rotate, Scale (G, R, S) atau kolom angka ala Blender, lalu ekspor jadi satu .im baru. Teksturnya ikut disalin.",
+  },
+];
+
+export const extras: Feature[] = [
+  {
+    scene: "S5",
+    meta: "Saved UV template 1_uv.png (2048×2048)",
+    title: "Template UV",
+    body: "Ekspor layout UV sebuah tekstur sebagai PNG, siap jadi layer panduan saat mengecat livery.",
+  },
+  {
+    scene: "S6",
+    meta: "panto_a.jpg is not used by this mesh",
+    title: "Panel validasi",
+    body: "Tekstur hilang, .texture.txt tanpa Primary=, atau ukuran yang bukan pangkat dua langsung terdaftar. Klik untuk menuju teksturnya.",
+  },
+  {
+    scene: "S8",
+    meta: "ss.jpg 512×512 · $screenshot$.jpg 240×180",
+    title: "Thumbnail sekali klik",
+    body: "Buat ss.jpg 512×512 untuk Content Manager dan $screenshot$.jpg 240×180 dari sudut pandang yang sedang tampil.",
+  },
+  {
+    scene: "S9",
+    meta: "Home · Numpad 1 / 3 / 7",
+    title: "Navigasi ala Blender",
+    body: "Garis sumbu dan gizmo navigasi: klik bola sumbu untuk melihat dari arah itu. Tampilan Solid atau Wireframe.",
+  },
+];
+
+export const workflow = [
+  { title: "Buka mesh", body: "Buka .im kereta di TrainzLook. Semua teksturnya terdaftar di bawah viewport." },
+  { title: "Cat livery", body: "Edit tekstur di Photoshop atau GIMP seperti biasa, lalu simpan." },
+  { title: "Lihat hasilnya", body: "Kereta di viewport berubah saat itu juga. Puas? Commit ke Trainz seperti biasa." },
+];
+
+export const faq = [
+  {
+    q: "Apakah TrainzLook benar-benar gratis?",
+    a: "Ya. TrainzLook gratis diunduh dan dipakai untuk pekerjaan konten Trainz Anda sendiri, tanpa akun dan tanpa langganan. Mohon jangan mengunggah ulang installer-nya; bagikan tautan halaman ini.",
+  },
+  {
+    q: "Apakah file asli saya aman?",
+    a: "Sebelum Replace, file asli disalin ke folder .trainzlook-backup di samping mesh. Revert atau Ctrl+Z mengembalikannya, dan versi yang sedang terpasang ikut disimpan sebagai .undone, jadi hasil edit Anda juga tidak hilang.",
+  },
+  {
+    q: "Format apa saja yang bisa dibuka?",
+    a: "Mesh .im Trainz, dengan tekstur yang dirujuk lewat .texture.txt (JPG, PNG, TGA, BMP). File .texture terkompilasi (TANE/TRS22), mesh beranimasi, dan mode traincar lengkap dengan bogey belum didukung.",
+  },
+  {
+    q: "Ada versi Mac atau Linux?",
+    a: "Belum. Saat ini TrainzLook hanya untuk Windows 10 dan 11 64-bit.",
+  },
+  {
+    q: "Bisa membuka aset yang masih di Content Manager?",
+    a: "TrainzLook membuka file yang ada di disk. Untuk aset di database Content Manager, pilih \"Open for edit\" di Content Manager dulu, lalu buka file .im dari folder tersebut.",
+  },
+];

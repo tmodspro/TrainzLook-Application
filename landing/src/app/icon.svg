@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256"><title>TrainzLook logo</title><g transform="translate(-29.31 -31.87) scale(1.229)">
+  
+  <!-- Cut for 32 px and below: bigger lens, thicker web and foot so nothing closes up. -->
+  <path fill="#FF8A00" fill-rule="evenodd" d="M128 30Q182 30 184 54V88Q184 102 170 102H158Q148 102 148 114V160Q148 178 166 184L218 198Q228 201 228 210V226H28V210Q28 201 38 198L90 184Q108 178 108 160V114Q108 102 98 102H86Q72 102 72 88V54Q74 30 128 30Z M106 66A22 22 0 1 0 150 66A22 22 0 1 0 106 66Z"/>
+</g></svg>
