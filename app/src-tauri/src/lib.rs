@@ -292,6 +292,27 @@ fn edit_texture(
     Ok("the default app")
 }
 
+/// Links of the Bantuan popup (About.tsx). Only these open: the webview can't make the app launch any other URL.
+const LINKS: [&str; 3] = [
+    "https://trainzlook.web.id",
+    "https://www.facebook.com/nolanagrn",
+    "https://indorails.my.id/",
+];
+
+/// Opens one of `LINKS` in the default browser.
+#[tauri::command(async)]
+fn open_link(url: String) -> Result<(), String> {
+    if !LINKS.contains(&url.as_str()) {
+        return Err(format!("{url} is not a TrainzLook link"));
+    }
+    // explorer hands a URL to the default browser
+    std::process::Command::new("explorer")
+        .arg(&url)
+        .spawn()
+        .map(|_| ())
+        .map_err(|e| format!("cannot open {url}: {e}"))
+}
+
 /// Photoshop's exe from its App Paths registration, which every Photoshop installer writes.
 fn photoshop() -> Option<PathBuf> {
     use std::os::windows::process::CommandExt;
@@ -763,6 +784,7 @@ pub fn run() {
             replace_texture,
             revert_texture,
             edit_texture,
+            open_link,
             save_livery,
             apply_livery,
             decode_image,
@@ -776,7 +798,19 @@ pub fn run() {
 
 #[cfg(test)]
 mod tests {
-    use super::{backup_stamp, bring_texture, livery_name, next_batch, reg_default};
+    use super::{backup_stamp, bring_texture, livery_name, next_batch, open_link, reg_default};
+
+    #[test]
+    fn opens_only_the_bantuan_links() {
+        for url in [
+            "https://example.com",
+            "file:///C:/Windows/System32/calc.exe",
+            "C:\\Windows\\notepad.exe",
+            "",
+        ] {
+            assert!(open_link(url.into()).is_err(), "{url:?} must be refused");
+        }
+    }
 
     #[test]
     fn one_save_is_one_reload() {

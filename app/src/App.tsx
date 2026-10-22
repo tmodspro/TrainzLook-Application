@@ -3,12 +3,14 @@ import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
 import { open, save } from "@tauri-apps/plugin-dialog";
+import About from "./About";
 import Help from "./Help";
 import Menubar from "./Menubar";
 import NumberField from "./NumberField";
 import Viewport, { type GizmoMode, IDENTITY, type Pick, pivotOf, placementOf, type Snapshot, type Xf, xfMatrix } from "./Viewport";
 import { dropRecent, pushRecent, readRecent, saveRecent } from "./recent";
 import { meshStats } from "./stats";
+import { MERGE_UI } from "./features";
 import { decodeImage, REPLACE_EXTS } from "./textures";
 import type { Livery, MeshData } from "./types";
 import logo from "./logo.svg"; // copy of branding/trainzlook-symbol-small.svg (the cut for 32 px and below)
@@ -147,6 +149,8 @@ export default function App() {
   }, []);
 
   const helpDialog = useRef<HTMLDialogElement>(null);
+  const aboutDialog = useRef<HTMLDialogElement>(null);
+  const openLink = (url: string) => invoke("open_link", { url }).catch((e) => setError(String(e)));
   const [recent, setRecent] = useState(readRecent);
   useEffect(() => saveRecent(recent), [recent]);
 
@@ -472,9 +476,13 @@ export default function App() {
                 ...(recent.length
                   ? recent.map((p) => ({ label: recentLabel(p), title: p, onSelect: () => load(p) }))
                   : [{ label: "No recent meshes", disabled: true, onSelect: () => {} }]),
-                "sep",
-                { label: "Import .im…", disabled: !mesh, title: "Bring a second, static .im in to place and merge", onSelect: importMesh },
-                { label: "Export merged…", disabled: !imported, title: "Write the open mesh plus the placed import to a new .im", onSelect: exportMerged },
+                ...(MERGE_UI
+                  ? ([
+                      "sep",
+                      { label: "Import .im…", disabled: !mesh, title: "Bring a second, static .im in to place and merge", onSelect: importMesh },
+                      { label: "Export merged…", disabled: !imported, title: "Write the open mesh plus the placed import to a new .im", onSelect: exportMerged },
+                    ] as const)
+                  : []),
                 "sep",
                 { label: "Save thumbnail ss.jpg (512×512)", disabled: !mesh, onSelect: () => saveThumbnail("ss.jpg", 512, 512) },
                 { label: "Save preview $screenshot$ (240×180)", disabled: !mesh, onSelect: () => saveThumbnail("$screenshot$.jpg", 240, 180) },
@@ -501,6 +509,8 @@ export default function App() {
               label: "Help",
               items: [{ label: "Panduan TrainzLook", shortcut: "F1", onSelect: () => helpDialog.current?.showModal() }],
             },
+            // Opens the "Tentang TrainzLook" popup instead of a dropdown.
+            { label: "Bantuan", onSelect: () => aboutDialog.current?.showModal() },
           ]}
         />
         <span className="path" title={mesh?.path}>
@@ -887,6 +897,7 @@ export default function App() {
       </dialog>
 
       <Help dialog={helpDialog} />
+      <About dialog={aboutDialog} openLink={openLink} />
 
       <footer className="status">
         {mesh

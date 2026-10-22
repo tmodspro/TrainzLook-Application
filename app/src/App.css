@@ -217,3 +217,18 @@ dialog.modal[open]::backdrop { animation: fade 0.14s ease-out; }
 .stats div { display: grid; grid-template-columns: 64px auto; }
 .stats dd { margin: 0; font-variant-numeric: tabular-nums; }
 .stats dl { margin: 0; }
+
+/* Bantuan: About popup */
+dialog.about { width: 340px; padding: 22px 24px 18px; text-align: center; }
+dialog.about[open] { display: grid; justify-items: center; gap: 6px; }
+dialog.about img { width: 52px; height: 52px; }
+dialog.about h3 { margin: 0; font-size: 16px; }
+dialog.about .muted { margin: 0; color: var(--muted); }
+dialog.about .small { font-size: 10px; }
+dialog.about dl { width: 100%; margin: 10px 0 8px; padding: 8px 0; border-block: 1px solid #333; display: grid; gap: 4px; }
+dialog.about dl div { display: grid; grid-template-columns: 80px 1fr; align-items: center; text-align: left; }
+dialog.about dt { color: var(--muted); }
+dialog.about dd { margin: 0; }
+button.link { padding: 0; border: 0; background: none; color: #6fb3ff; cursor: pointer; }
+button.link:hover { background: none; text-decoration: underline; }
+dialog.about > button.on { margin-top: 6px; min-width: 96px; }

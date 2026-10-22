@@ -1,6 +1,6 @@
 [package]
 name = "trainzlook"
-version = "0.2.0"
+version = "0.2.1"
 description = "Blender-style viewer for Trainz meshes"
 authors = ["INDORAILS"]
 license = "UNLICENSED"

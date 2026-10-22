@@ -1,10 +1,11 @@
 import type { ReactNode, RefObject } from "react";
+import { MERGE_UI } from "./features";
 
 // Panduan Penggunaan, opened from Help > Panduan TrainzLook or F1. Keep it in step with the features in App.tsx.
 const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   {
     id: "mulai",
-    title: "1. Membuka mesh",
+    title: "Membuka mesh",
     body: (
       <ul>
         <li>
@@ -27,7 +28,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "navigasi",
-    title: "2. Navigasi viewport",
+    title: "Navigasi viewport",
     body: (
       <ul>
         <li>
@@ -63,7 +64,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "outliner",
-    title: "3. Outliner & Validasi",
+    title: "Outliner & Validasi",
     body: (
       <ul>
         <li>
@@ -84,7 +85,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "texture",
-    title: "4. Texture Browser",
+    title: "Texture Browser",
     body: (
       <ul>
         <li>Semua gambar di folder mesh, dengan ukuran dan jumlah material yang memakainya. Gambar redup = tidak dipakai.</li>
@@ -102,7 +103,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "replace",
-    title: "5. Ganti texture (Replace, Revert, Before)",
+    title: "Ganti texture (Replace, Revert, Before)",
     body: (
       <ul>
         <li>
@@ -115,7 +116,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
         </li>
         <li>
           <b>Revert</b>: kembali ke versi sebelum Replace terakhir. <kbd>Ctrl Z</kbd>: batalkan langkah terakhir
-          (Replace, livery, atau geser mesh import).
+          (Replace, livery{MERGE_UI ? ", atau geser mesh import" : ""}).
         </li>
         <li>
           <b>Before (B)</b>: tahan tombolnya atau tahan <kbd>B</kbd> untuk melihat texture sebelum Replace terakhir.
@@ -127,7 +128,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "edit",
-    title: "6. Edit di Photoshop",
+    title: "Edit di Photoshop",
     body: (
       <ul>
         <li>
@@ -143,7 +144,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "livery",
-    title: "7. Livery preset",
+    title: "Livery preset",
     body: (
       <ul>
         <li>
@@ -165,7 +166,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "uv",
-    title: "8. UV template & thumbnail",
+    title: "UV template & thumbnail",
     body: (
       <ul>
         <li>
@@ -180,7 +181,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "merge",
-    title: "9. Gabung mesh (Import & Export merged)",
+    title: "Gabung mesh (Import & Export merged)",
     body: (
       <ul>
         <li>
@@ -207,15 +208,15 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "keys",
-    title: "10. Shortcut",
+    title: "Shortcut",
     body: (
       <table>
         <tbody>
           {[
             ["Ctrl O", "Buka mesh"],
-            ["Ctrl Z", "Undo (Replace, livery, posisi import)"],
+            ["Ctrl Z", `Undo (Replace, livery${MERGE_UI ? ", posisi import" : ""})`],
             ["B (tahan)", "Lihat texture sebelum Replace"],
-            ["G / R / S", "Gizmo geser / putar / skala"],
+            ...(MERGE_UI ? [["G / R / S", "Gizmo geser / putar / skala"]] : []),
             ["Home", "Tampilan awal"],
             ["Numpad 1 / 3 / 7", "Depan / samping / atas"],
             ["F1", "Panduan ini"],
@@ -233,7 +234,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: "file",
-    title: "11. Folder yang dibuat TrainzLook",
+    title: "Folder yang dibuat TrainzLook",
     body: (
       <ul>
         <li>
@@ -249,6 +250,9 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
 ];
 
+// Hidden features drop out of the guide; sections are numbered in the order shown.
+const SHOWN = SECTIONS.filter((s) => MERGE_UI || s.id !== "merge").map((s, i) => ({ ...s, title: `${i + 1}. ${s.title}` }));
+
 export default function Help({ dialog }: { dialog: RefObject<HTMLDialogElement | null> }) {
   return (
     <dialog ref={dialog} className="modal help" aria-labelledby="help-title">
@@ -260,14 +264,14 @@ export default function Help({ dialog }: { dialog: RefObject<HTMLDialogElement |
       </div>
       <div className="help-body">
         <nav aria-label="Isi panduan">
-          {SECTIONS.map((s) => (
+          {SHOWN.map((s) => (
             <button key={s.id} onClick={() => document.getElementById(`help-${s.id}`)?.scrollIntoView({ behavior: "smooth" })}>
               {s.title}
             </button>
           ))}
         </nav>
         <div className="help-content">
-          {SECTIONS.map((s) => (
+          {SHOWN.map((s) => (
             <section key={s.id} id={`help-${s.id}`}>
               <h4>{s.title}</h4>
               {s.body}

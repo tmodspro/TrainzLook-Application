@@ -4,7 +4,8 @@ export type MenuItem =
   | { label: string; shortcut?: string; disabled?: boolean; checked?: boolean; title?: string; onSelect: () => void }
   | { heading: string }
   | "sep";
-export type Menu = { label: string; items: MenuItem[] };
+/** A title with items opens a dropdown; one with `onSelect` acts at once (e.g. opens a dialog). */
+export type Menu = { label: string; items: MenuItem[] } | { label: string; onSelect: () => void };
 
 /** Blender-style text menus: click opens, hovering another title while one is open switches to it, Esc or a click
  * outside closes. */
@@ -31,15 +32,19 @@ export default function Menubar({ menus }: { menus: Menu[] }) {
         <div key={m.label} className="menu">
           <button
             role="menuitem"
-            aria-haspopup="menu"
-            aria-expanded={open === i}
+            aria-haspopup={"items" in m ? "menu" : "dialog"}
+            aria-expanded={"items" in m ? open === i : undefined}
             className={open === i ? "open" : ""}
-            onClick={() => setOpen(open === i ? null : i)}
-            onMouseEnter={() => open !== null && setOpen(i)}
+            onClick={() => {
+              if ("items" in m) return setOpen(open === i ? null : i);
+              setOpen(null);
+              m.onSelect();
+            }}
+            onMouseEnter={() => open !== null && setOpen("items" in m ? i : null)}
           >
             {m.label}
           </button>
-          {open === i && (
+          {open === i && "items" in m && (
             <div className="menu-list" role="menu">
               {m.items.map((it, k) =>
                 it === "sep" ? (
