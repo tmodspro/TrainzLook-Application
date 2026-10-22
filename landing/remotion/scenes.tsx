@@ -1,143 +1,182 @@
 import type { ReactNode } from "react";
 import { AbsoluteFill, Series, useCurrentFrame } from "remotion";
 import { AppMockup, type MockState } from "@/mockup/AppMockup";
-import { base, empty, livery, merged, replaced, tour } from "@/mockup/states";
+import { base, empty, livery, replaced, tour } from "@/mockup/states";
 import { Cursor, Editor, FileChip, Keys, along, tween, type Path, type Point } from "./overlays";
 import { TOUR_SEGMENTS } from "./timing";
 
-// Scenes of the 1400×900 TrainzLook window at 30 fps. Every UI state is one the real app showed (see states.ts);
-// only the pointer, the dragged file, the key hints and the image editor are drawn on top.
+// Scenes of the 1400×900 TrainzLook window at 30 fps. Every UI state and notice is one the real app shows (see
+// states.ts and app/src/App.tsx); only the pointer, the dragged file, the key hints and the image editor are drawn on top.
 
 // Mockup coordinates, measured in the browser on the rendered mockup.
 const P = {
   off: [1460, 940] as Point,
-  view: [821, 362] as Point,
-  tile: [312, 727] as Point,
-  revert: [323, 836] as Point,
-  importBtn: [192, 46] as Point,
-  exportBtn: [301, 46] as Point,
+  recent: [821, 406] as Point,
+  pencil: [359, 684] as Point,
+  tile: [312, 731] as Point,
+  before: [486, 77] as Point,
+  partRow: [70, 121] as Point,
+  saveLivery: [442, 648] as Point,
+  liverySelect: [366, 648] as Point,
+  dialogSave: [811, 500] as Point,
 };
 
-// After the Replace: 1.jpg has a backup and the notice stays until the next action, as in the app.
-const afterReplace: MockState = { ...base, textures: tour.textures.map((t) => ({ ...t, selected: false })), notice: replaced };
+const blueThumb = livery.textures[0].swatch;
+const redThumb = base.textures[0].swatch;
+const withThumb = (s: MockState, swatch: string, extra: Partial<MockState["textures"][0]> = {}): MockState["textures"] =>
+  s.textures.map((t, i) => (i === 0 ? { ...t, swatch, ...extra } : t));
+// After the Replace: 1.jpg is the red file again, with one backup, and the notice stays until the next action.
+const afterReplace: MockState = { ...base, textures: withThumb(base, redThumb, { backups: 1 }), notice: replaced };
 
-const thumb1 = base.textures[0].swatch;
-const thumb1New = livery.textures[0].swatch;
-
+// Start screen → Recent → the mesh opens.
 function Open() {
   const f = useCurrentFrame();
   const path: Path = [
     [0, P.off],
-    [38, P.view],
-    [60, P.view],
-    [86, P.tile],
+    [34, P.recent],
+    [70, P.recent],
+    [88, P.tile],
   ];
-  const s: MockState = f < 46 ? empty : { ...base, viewport: empty.viewport, viewportNext: base.viewport, viewportMix: tween(f, [[46, 0], [56, 1]]) };
+  const s: MockState =
+    f < 42
+      ? { ...empty, hotButton: f > 30 ? `Recent ${empty.recent![0]}` : undefined }
+      : f < 52
+        ? { ...empty, busy: "Opening body.im…", hotButton: `Recent ${empty.recent![0]}` }
+        : { ...base, viewport: empty.viewport, viewportNext: base.viewport, viewportMix: tween(f, [[52, 0], [62, 1]]) };
   return (
     <AbsoluteFill>
       <AppMockup state={s}>
-        {f < 52 && <FileChip at={along(f, path)} label="body.im" opacity={tween(f, [[44, 1], [52, 0]])} />}
-        <Cursor f={f} path={path} clicks={[44]} />
+        <Cursor f={f} path={path} clicks={[40]} />
       </AppMockup>
     </AbsoluteFill>
   );
 }
 
-function Reload() {
+// Pencil → the image editor opens → paint → Ctrl+S → the view reloads.
+function Edit() {
   const f = useCurrentFrame();
-  const saved = f >= 78;
+  const path: Path = [
+    [0, P.tile],
+    [18, P.pencil],
+    [30, P.pencil],
+    [46, [1180, 300]],
+  ];
+  const opened = "Opened 1.jpg in Photoshop · save there and the view updates";
+  const saved = f >= 96;
   const s: MockState = saved
-    ? { ...livery, viewport: base.viewport, viewportNext: livery.viewport, viewportMix: tween(f, [[78, 0], [88, 1]]) }
-    : base;
+    ? { ...livery, viewport: base.viewport, viewportNext: livery.viewport, viewportMix: tween(f, [[96, 0], [106, 1]]) }
+    : { ...base, hotButton: f > 14 && f < 32 ? "Edit 1.jpg" : undefined, notice: f >= 24 ? opened : undefined };
   return (
     <AbsoluteFill>
       <AppMockup state={s}>
         <Editor
-          at={[tween(f, [[0, 1020], [14, 990], [100, 990], [116, 1020]]), 110]}
-          opacity={tween(f, [[0, 0], [14, 1], [100, 1], [116, 0]])}
-          before={thumb1}
-          after={thumb1New}
-          reveal={tween(f, [[22, 0], [60, 1]])}
+          at={[tween(f, [[28, 1020], [42, 990], [118, 990], [128, 1020]]), 110]}
+          opacity={tween(f, [[28, 0], [42, 1], [118, 1], [128, 0]])}
+          before={redThumb}
+          after={blueThumb}
+          reveal={tween(f, [[48, 0], [82, 1]])}
         />
-        <Keys at={[1110, 540]} keys={["Ctrl", "S"]} opacity={tween(f, [[64, 0], [70, 1], [92, 1], [100, 0]])} />
+        <Keys at={[1110, 540]} keys={["Ctrl", "S"]} opacity={tween(f, [[84, 0], [88, 1], [108, 1], [116, 0]])} />
+        <Cursor f={f} path={path} clicks={[24]} />
       </AppMockup>
     </AbsoluteFill>
   );
 }
 
+// A file dropped on the tile replaces 1.jpg (backup first); holding B shows the texture from before.
 function Replace() {
   const f = useCurrentFrame();
   const path: Path = [
     [0, P.off],
-    [34, P.tile],
-    [46, P.tile],
-    [60, P.revert],
+    [32, P.tile],
+    [44, P.tile],
+    [64, P.before],
   ];
-  const dropped = f >= 40;
-  const s: MockState = dropped
-    ? {
-        ...afterReplace,
-        viewport: livery.viewport,
-        viewportNext: base.viewport,
-        viewportMix: tween(f, [[40, 0], [50, 1]]),
-        hotButton: f >= 60 ? "Revert 1.jpg" : undefined,
-      }
-    : { ...livery, notice: undefined, textures: livery.textures.map((t, i) => (i === 0 ? { ...t, drop: f >= 26 } : t)) };
+  const holding = f >= 72 && f < 104;
+  const s: MockState =
+    f < 38
+      ? { ...livery, notice: undefined, textures: withThumb(livery, blueThumb, { drop: f >= 24 }) }
+      : f < 46
+        ? { ...livery, notice: undefined, busy: "Replacing 1.jpg…" }
+        : {
+            ...afterReplace,
+            viewport: livery.viewport,
+            viewportNext: base.viewport,
+            viewportMix: holding ? 0 : tween(f, [[46, 0], [56, 1]]),
+            comparing: holding,
+            hotButton: f >= 64 && !holding ? "Before (B)" : undefined,
+          };
   return (
     <AbsoluteFill>
       <AppMockup state={s}>
-        {f < 46 && <FileChip at={along(f, path)} label="livery-merah.jpg" opacity={tween(f, [[38, 1], [46, 0]])} />}
-        <Cursor f={f} path={path} clicks={[40]} />
-        <Keys at={[360, 760]} keys={["Ctrl", "Z"]} opacity={tween(f, [[62, 0], [68, 1]])} />
+        {f < 44 && <FileChip at={along(f, path)} label="livery-merah.jpg" opacity={tween(f, [[36, 1], [44, 0]])} />}
+        <Cursor f={f} path={path} clicks={[38, 72]} />
+        <Keys at={[P.before[0] + 70, P.before[1] + 30]} keys={["B"]} opacity={holding ? 1 : 0} />
       </AppMockup>
     </AbsoluteFill>
   );
 }
 
-function Highlight() {
+// A part clicked in the Outliner: row, tile and the parts using its texture light up; Statistics counts it.
+function Select() {
   const f = useCurrentFrame();
   const path: Path = [
-    [0, P.revert],
-    [20, P.tile],
-  ];
-  const s: MockState = f < 20 ? afterReplace : tour;
-  return (
-    <AbsoluteFill>
-      <AppMockup state={s}>
-        <Cursor f={f} path={path} />
-      </AppMockup>
-    </AbsoluteFill>
-  );
-}
-
-function Merge() {
-  const f = useCurrentFrame();
-  const path: Path = [
-    [0, P.tile],
-    [26, P.importBtn],
-    [60, P.importBtn],
-    [80, P.exportBtn],
+    [0, P.before],
+    [22, P.partRow],
   ];
   const s: MockState =
-    f < 30
-      ? { ...afterReplace, hotButton: f > 22 ? "Import .im…" : undefined }
-      : {
-          ...merged,
-          textures: afterReplace.textures,
-          tilesScroll: tween(f, [[36, 0], [56, 560]]),
-          hotButton: f > 76 ? "Export merged…" : undefined,
-          notice: f >= 86 ? "Exported body_merged.im: 13 parts · copied masiniskin.texture.txt, masiniskin.jpg" : merged.notice,
-        };
+    f < 26
+      ? { ...afterReplace, parts: base.parts.map((p, i) => (i === 0 ? { ...p, hot: f > 16 } : p)) }
+      : { ...tour, textures: tour.textures.map((t) => ({ ...t, backups: 1 })) };
   return (
     <AbsoluteFill>
       <AppMockup state={s}>
-        <Cursor f={f} path={path} clicks={[28, 84]} />
+        <Cursor f={f} path={path} clicks={[26]} />
       </AppMockup>
     </AbsoluteFill>
   );
 }
 
-// Fades the livery state to the empty window so the hero loop restarts on Open without a jump.
+// Save livery… names the current textures; Livery… puts a saved preset back on (only changed textures, backed up).
+function Livery() {
+  const f = useCurrentFrame();
+  const path: Path = [
+    [0, P.partRow],
+    [20, P.saveLivery],
+    [28, P.saveLivery],
+    [44, P.dialogSave],
+    [70, P.dialogSave],
+    [88, P.liverySelect],
+  ];
+  const name = "Merah Kuning".slice(0, Math.max(0, Math.floor((f - 34) / 2)));
+  const s: MockState =
+    f < 30
+      ? { ...afterReplace, hotButton: f > 18 ? "Save livery…" : undefined }
+      : f < 74
+        ? { ...afterReplace, livery: { name, note: "Copies the 11 textures this mesh uses" }, hotButton: f > 62 ? "Save" : undefined }
+        : f < 96
+          ? { ...afterReplace, liveries: 2, notice: "Saved livery Merah Kuning: 11 texture(s)", hotButton: f > 86 ? "Livery…" : undefined }
+          : f < 104
+            ? { ...afterReplace, liveries: 2, busy: "Applying livery Biru…" }
+            : {
+                ...livery,
+                liveries: 2,
+                textures: withThumb(livery, blueThumb, { backups: 2 }),
+                viewport: base.viewport,
+                viewportNext: livery.viewport,
+                viewportMix: tween(f, [[104, 0], [114, 1]]),
+                notice: "Applied livery Biru: 1 texture(s) changed · Ctrl+Z undoes · hold B to compare",
+              };
+  return (
+    <AbsoluteFill>
+      <AppMockup state={s}>
+        <Cursor f={f} path={path} clicks={[28, 72, 94]} />
+      </AppMockup>
+    </AbsoluteFill>
+  );
+}
+
+// Fades the reloaded livery to the start screen so the hero loop restarts on Open without a jump.
 function Outro() {
   const f = useCurrentFrame();
   return (
@@ -147,16 +186,16 @@ function Outro() {
   );
 }
 
-const SCENES = { S1: Open, S2: Reload, S3: Replace, S4: Highlight, S7: Merge };
+const SCENES = { open: Open, edit: Edit, replace: Replace, select: Select, livery: Livery };
 
 // Tour camera: the part of the 1400×900 window each step is about, as [x, y, width] (height keeps 14:9). It glides
 // there over the first 18 frames of the step, from wherever the previous step was looking.
 const FOCUS: Record<keyof typeof SCENES, [number, number, number]> = {
-  S1: [0, 0, 1400], // the whole window opening
-  S2: [300, 40, 1100], // viewport and the image editor
-  S3: [120, 380, 800], // Texture Browser: drop, backup, Revert
-  S4: [200, 240, 1000], // the car and its tile
-  S7: [0, 20, 1100], // Import / Export buttons and the placement fields
+  open: [320, 100, 1000], // the start screen and its Recent list
+  edit: [242, 40, 1158], // the pencil on the tile, the image editor and the viewport
+  replace: [100, 40, 1300], // the dropped tile and the Before (B) button
+  select: [0, 40, 1100], // Outliner, Statistics and the lit parts
+  livery: [150, 190, 1100], // Texture Browser header and the Save livery popup
 };
 const camKeys = TOUR_SEGMENTS.reduce<{ at: number; keys: [number, number[]][] }>(
   ({ at, keys }, [scene, frames]) => ({
@@ -176,14 +215,14 @@ export function Tour() {
   return (
     <Camera>
       <Series>
-      {TOUR_SEGMENTS.map(([scene, frames]) => {
-        const Scene = SCENES[scene];
-        return (
-          <Series.Sequence key={scene} durationInFrames={frames}>
-            <Scene />
-          </Series.Sequence>
-        );
-      })}
+        {TOUR_SEGMENTS.map(([scene, frames]) => {
+          const Scene = SCENES[scene];
+          return (
+            <Series.Sequence key={scene} durationInFrames={frames}>
+              <Scene />
+            </Series.Sequence>
+          );
+        })}
       </Series>
     </Camera>
   );
@@ -195,8 +234,8 @@ export function Hero() {
       <Series.Sequence durationInFrames={90}>
         <Open />
       </Series.Sequence>
-      <Series.Sequence durationInFrames={120}>
-        <Reload />
+      <Series.Sequence durationInFrames={130}>
+        <Edit />
       </Series.Sequence>
       <Series.Sequence durationInFrames={45}>
         <Outro />

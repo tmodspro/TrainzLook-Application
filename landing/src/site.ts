@@ -25,37 +25,38 @@ export const site = {
 
 export type Feature = { scene: string; title: string; body: string; short?: string; meta?: string };
 
-// Sticky tour (scene ids match the Remotion scenes planned in §5)
+// Pinned tour, in step order (scene ids match remotion/timing.ts). Only features the app shows today: merge is
+// hidden there (app/src/features.ts MERGE_UI), so it is not claimed here.
 export const tour: Feature[] = [
   {
-    scene: "S1",
-    short: "Buka .im",
-    title: "Buka .im, langsung tampil",
-    body: "Seret file .im ke jendela atau tekan Ctrl+O. Mesh, daftar material, dan semua tekstur yang dipakai muncul bersamaan.",
+    scene: "open",
+    short: "Buka & Recent",
+    title: "Buka .im dari mana saja",
+    body: "Seret .im ke jendela, tekan Ctrl+O, atau pilih dari Open Recent. Layar awal menampilkan tiga mesh terakhir, dan versi installer membuka .im lewat double-click di Explorer.",
   },
   {
-    scene: "S2",
-    short: "Hot reload",
-    title: "Simpan di Photoshop, kereta ikut berubah",
-    body: "TrainzLook mengawasi folder mesh. Begitu tekstur disimpan dari Photoshop atau GIMP, viewport memuat ulang sendiri. Tidak ada yang perlu ditutup lalu dibuka lagi.",
+    scene: "edit",
+    short: "Edit di Photoshop",
+    title: "Klik pensil, cat, simpan",
+    body: "Ikon pensil di tile membuka tekstur di Photoshop (atau aplikasi default). Begitu disimpan, TrainzLook memuat ulang viewport sendiri. Tidak perlu Replace, tidak perlu membuka ulang.",
   },
   {
-    scene: "S3",
-    short: "Replace + backup",
-    title: "Ganti tekstur tanpa takut",
-    body: "Seret gambar ke tile tekstur. Gambar dikonversi ke nama dan format asli supaya .texture.txt tetap valid, dan file lama disalin ke backup lebih dulu. Revert atau Ctrl+Z untuk kembali.",
+    scene: "replace",
+    short: "Replace + Before",
+    title: "Ganti tekstur, bandingkan dengan yang lama",
+    body: "Seret gambar ke tile: dikonversi ke nama dan format asli supaya .texture.txt tetap valid, file lama disalin ke backup dulu. Tahan B untuk melihat versi sebelumnya; Revert atau Ctrl+Z untuk kembali.",
   },
   {
-    scene: "S4",
-    short: "Sorot tekstur",
-    title: "Tekstur mana dipakai di mana",
-    body: "Pilih sebuah tekstur, bagian kereta yang memakainya langsung tersorot di viewport. Tekstur yang tidak dipakai mesh ditandai redup.",
+    scene: "select",
+    short: "Sorot + statistik",
+    title: "Bagian mana memakai tekstur apa",
+    body: "Klik part di Outliner atau di model: bagian yang memakai teksturnya menyala dan tile-nya ditandai. Overlay Statistics ala Blender menghitung objek, vertex, edge, dan segitiga.",
   },
   {
-    scene: "S7",
-    short: "Gabung mesh",
-    title: "Gabungkan dua mesh",
-    body: "Bawa .im kedua, atur letaknya dengan gizmo Move, Rotate, Scale (G, R, S) atau kolom angka ala Blender, lalu ekspor jadi satu .im baru. Teksturnya ikut disalin.",
+    scene: "livery",
+    short: "Livery preset",
+    title: "Simpan livery, pasang lagi sekali klik",
+    body: "Save livery menyimpan semua tekstur yang dipakai mesh dengan sebuah nama. Pilih dari Livery… untuk memasangnya: hanya tekstur yang berbeda yang diganti (dengan backup), dan Ctrl+Z membatalkan satu livery sekaligus.",
   },
 ];
 
@@ -76,7 +77,7 @@ export const extras: Feature[] = [
     scene: "S8",
     meta: "ss.jpg 512×512 · $screenshot$.jpg 240×180",
     title: "Thumbnail sekali klik",
-    body: "Buat ss.jpg 512×512 untuk Content Manager dan $screenshot$.jpg 240×180 dari sudut pandang yang sedang tampil.",
+    body: "Buat ss.jpg 512×512 untuk Content Manager dan $screenshot$.jpg 240×180 dari sudut pandang yang sedang tampil, tanpa grid dan gizmo. Dari header viewport atau menu File.",
   },
   {
     scene: "S9",
@@ -88,7 +89,7 @@ export const extras: Feature[] = [
 
 export const workflow = [
   { title: "Buka mesh", body: "Buka .im kereta di TrainzLook. Semua teksturnya terdaftar di bawah viewport." },
-  { title: "Cat livery", body: "Edit tekstur di Photoshop atau GIMP seperti biasa, lalu simpan." },
+  { title: "Cat livery", body: "Klik ikon pensil di tile: tekstur terbuka di Photoshop. Cat seperti biasa, lalu simpan." },
   { title: "Lihat hasilnya", body: "Kereta di viewport berubah saat itu juga. Puas? Commit ke Trainz seperti biasa." },
 ];
 

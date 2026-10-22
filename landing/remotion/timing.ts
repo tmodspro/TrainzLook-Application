@@ -3,13 +3,13 @@ export const FPS = 30;
 export const WIDTH = 1400;
 export const HEIGHT = 900;
 
-// Tour segments in the order of the tour cards (site.ts `tour`).
+// Tour segments in the order of the tour cards (site.ts `tour`, matched by `scene`).
 export const TOUR_SEGMENTS = [
-  ["S1", 90],
-  ["S2", 120],
-  ["S3", 90],
-  ["S4", 60],
-  ["S7", 110],
+  ["open", 90],
+  ["edit", 130],
+  ["replace", 120],
+  ["select", 75],
+  ["livery", 140],
 ] as const;
 export const TOUR_FRAMES = TOUR_SEGMENTS.reduce((n, [, f]) => n + f, 0);
-export const HERO_FRAMES = 90 + 120 + 45;
+export const HERO_FRAMES = 90 + 130 + 45;

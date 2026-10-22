@@ -224,3 +224,11 @@ Belum: Delivery Gate antislop lengkap ditulis per item, uji Safari/Firefox, `sit
 - **Tombol:** semua pill glass (`.btn-glass`), rim cahaya diam (terang di atas, oranye tipis di bawah), kilau sekali saat hover; primer & pilihan aktif = glass oranye. Versi rim berputar dicoba lalu dibuang atas permintaan pemilik (terlihat jelek).
 - Catatan antislop: glass di banyak kartu melampaui R-10 (1–2 elemen); dipertahankan karena arahan eksplisit pemilik (R-37).
 - Jangan jalankan `npm run build` saat `npm run dev` hidup: keduanya memakai `.next`, dev lalu menyajikan CSS lama (hapus `.next` dan restart dev).
+
+## Sinkron dengan aplikasi (2026-10-22)
+
+- Mockup (`landing/src/mockup`) mengikuti UI aplikasi terbaru: menubar File/Edit/View/Help (+ Open Recent), layar awal dengan Recent, grup Outliner, tombol Before (B), overlay Statistics, ikon pensil Edit di tile, header Texture Browser dengan Livery… / Save livery…, spinner status, popup Save livery.
+- Merge disembunyikan di aplikasi (`app/src/features.ts` MERGE_UI = false), jadi langkah "Gabungkan dua mesh", state, scene, dan capture `tc1-import`/`tex-masiniskin` dihapus dari landing.
+- Tur (Remotion) jadi 5 langkah: Buka & Recent, Edit di Photoshop (pensil → simpan → reload), Replace + Before (tahan B), Sorot + statistik (klik Outliner), Livery preset (Save livery → pasang preset). Hero: layar awal → Recent → Edit/reload.
+- Angka Statistics TC1-8500 (12 objek, 62,974 vertex, 105,165 edge, 50,614 face/segitiga) dihitung dengan algoritma `app/src/stats.ts` dari `body.im` yang sama. Render viewport tidak berubah di aplikasi, jadi capture lama tetap dipakai.
+- Teks notice/busy di scene = string asli `App.tsx` (Opening…, Opened … in Photoshop…, Replacing…, Saved livery…, Applying livery…, Applied livery…).

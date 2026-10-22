@@ -7,10 +7,10 @@ open the mesh through the app's own drag-drop handler and backend, at 2x pixel r
    `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS=--remote-debugging-port=9223 npm run tauri dev`
 2. Run a step script from this folder (`DX`/`DY` orbit, `WHEEL` zoom, `PX`/`PY` pan; the site uses `DX=35 DY=-20 WHEEL=14`):
    - `final.mjs`: material, highlight and wireframe renders plus every texture thumbnail. Env: `MESH`.
-   - `scenes.mjs`: every state the Remotion scenes use (empty, hot-reloaded livery, Replace + Ctrl+Z, merge).
+   - `scenes.mjs`: every viewport state the Remotion scenes use (empty, hot-reloaded livery, Replace + Ctrl+Z).
      Env: `MESH` (a **scratch copy** of the car: Replace writes backups beside it), `LIVERY` (edited `1.jpg`, kept outside
-     the mesh folder), `IMPORT` (a static `.im`; animated ones are refused), optional `PLACE="x,y,z"`.
-   - e.g. `MESH=… LIVERY=… IMPORT=… DX=35 DY=-20 WHEEL=14 node cdp.mjs run scenes.mjs`
+     the mesh folder).
+   - e.g. `MESH=… LIVERY=… DX=35 DY=-20 WHEEL=14 node cdp.mjs run scenes.mjs`
 3. Convert the PNGs to WebP with `sharp` (quality 85, thumbnails 80) and delete the PNGs.
 
 Notes

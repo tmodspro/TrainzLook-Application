@@ -1,5 +1,6 @@
 /* Copied from app/src/App.css (keep in sync by hand) and scoped to .tl-mock so it cannot touch the page.
-   Unlayered on purpose: it must win over Tailwind's preflight inside the mockup. */
+   Unlayered on purpose: it must win over Tailwind's preflight inside the mockup. Hover rules are replaced by
+   explicit .hot / .open classes, because the scenes draw those states instead of a real pointer. */
 .tl-mock {
   --bg: #1d1d1d;
   --area: #303030;
@@ -32,13 +33,15 @@
 .tl-mock .titlebar .caption span { width: 46px; display: grid; place-items: center; font-size: 10px; color: #ddd; }
 
 .tl-mock h2 { margin: 0; padding: 4px 8px; font-size: 11px; font-weight: 600; background: var(--header); color: var(--muted); }
-.tl-mock button {
+.tl-mock button, .tl-mock .select {
   font: inherit; color: var(--text); background: var(--widget);
   border: 1px solid #2b2b2b; border-radius: 4px; padding: 2px 10px; cursor: default;
 }
 .tl-mock button.on { background: var(--accent); }
 .tl-mock button.hot { background: #656565; }
-.tl-mock button:disabled { opacity: 0.35; background: var(--widget); }
+.tl-mock button:disabled, .tl-mock .select.disabled { opacity: 0.35; background: var(--widget); }
+.tl-mock .select { padding: 1px 4px; }
+.tl-mock .select::after { content: " ▾"; color: var(--muted); }
 .tl-mock .sep { width: 1px; align-self: stretch; margin: 0 4px; background: #555; }
 .tl-mock kbd { margin-left: 6px; color: var(--muted); font: inherit; font-size: 10px; }
 
@@ -49,33 +52,32 @@
 .tl-mock .topbar { grid-area: top; display: flex; align-items: center; gap: 12px; padding: 0 10px; background: var(--header); }
 .tl-mock .logo { height: 20px; display: block; }
 .tl-mock .path { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tl-mock .topbar .path { margin-left: auto; font-size: 11px; }
+
+/* Menubar (File / Edit / View / Help) */
+.tl-mock .menubar { position: relative; z-index: 20; display: flex; align-items: center; height: 100%; margin-left: -6px; }
+.tl-mock .menu { position: relative; }
+.tl-mock .menu > button { background: transparent; border: 0; padding: 2px 8px; border-radius: 3px; }
+.tl-mock .menu > button.open { background: #4a4a4a; }
+.tl-mock .menu-list { position: absolute; top: calc(100% + 3px); left: 0; z-index: 20; min-width: 240px; display: grid; padding: 3px; background: #1f1f1f; border: 1px solid #111; border-radius: 5px; box-shadow: 0 8px 24px #000a; }
+.tl-mock .menu-list button { display: grid; grid-template-columns: 14px 1fr auto; align-items: center; gap: 6px; padding: 3px 8px 3px 4px; text-align: left; background: transparent; border: 0; border-radius: 3px; white-space: nowrap; }
+.tl-mock .menu-list button.hot { background: var(--accent); }
+.tl-mock .menu-list .check { color: var(--select); font-size: 11px; }
+.tl-mock .menu-list kbd { margin-left: 16px; }
+.tl-mock .menu-list hr { margin: 3px 4px; border: 0; border-top: 1px solid #333; }
+.tl-mock .menu-heading { padding: 4px 8px 2px 24px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
 
 .tl-mock .panel { background: var(--panel); border-radius: 4px; overflow: hidden; }
 .tl-mock .outliner { grid-area: out; display: flex; flex-direction: column; overflow: hidden; }
 .tl-mock .outliner ul { list-style: none; margin: 0; padding: 4px 0; flex: 1; min-height: 0; overflow: hidden; }
 .tl-mock .outliner ul.issues { flex: 0 1 auto; max-height: 40%; }
-.tl-mock .outliner ul.imported-parts { flex: 0 1 auto; max-height: 25%; }
-.tl-mock .dot.imported { background: #4aa3df; }
-.tl-mock .imported-head { display: flex; align-items: center; gap: 6px; }
-.tl-mock .imported-head button { margin-left: auto; padding: 0 6px; line-height: 14px; }
-.tl-mock .xf { display: grid; gap: 6px; padding: 6px 8px; }
-.tl-mock .xf-label { color: var(--muted); margin-bottom: 2px; }
-.tl-mock .xf-group { display: grid; gap: 1px; }
-.tl-mock .numfield { display: flex; align-items: center; height: 20px; background: var(--widget); color: var(--text); }
-.tl-mock .xf-group .numfield:nth-child(2) { border-radius: 4px 4px 0 0; }
-.tl-mock .xf-group .numfield:last-child { border-radius: 0 0 4px 4px; }
-.tl-mock .numbody { flex: 1; display: flex; justify-content: space-between; padding: 0 12px; min-width: 0; }
-.tl-mock .numbody span:first-child { color: var(--muted); }
-
-.tl-mock .toolbar { position: absolute; left: 8px; top: 38px; display: flex; flex-direction: column; gap: 2px; padding: 3px; background: #2b2b2bcc; border-radius: 6px; }
-.tl-mock .toolbar button { width: 32px; height: 32px; padding: 6px; border-radius: 4px; background: transparent; border: 0; }
-.tl-mock .toolbar button.on { background: var(--accent); }
-.tl-mock .toolbar svg { width: 100%; height: 100%; fill: none; stroke: var(--text); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .tl-mock .lvl-error { background: var(--error); }
 .tl-mock .lvl-warn { background: #e0a030; }
 .tl-mock .lvl-ok { background: #6cbf4a; }
 .tl-mock .outliner li { display: flex; align-items: center; gap: 6px; padding: 1px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tl-mock .outliner li.hot { background: #3a3a3a; }
+.tl-mock .outliner li.group { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; padding-top: 6px; }
+.tl-mock .outliner li.selected { background: #4a3a22; color: var(--select); }
 .tl-mock .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 .tl-mock .dot.material { background: #c45c5c; }
 .tl-mock .dot.attachment { background: #88aa55; }
@@ -87,9 +89,32 @@
 .tl-mock .viewport { flex: 1; min-height: 0; position: relative; background: #393939; }
 .tl-mock .viewport > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 
+/* Statistics overlay (top left of the viewport, like Blender's) */
+.tl-mock .stats { position: absolute; top: 38px; left: 12px; margin: 0; font-size: 11px; line-height: 1.5; color: #e6e6e6; text-shadow: 0 1px 2px #000, 0 0 4px #000; }
+.tl-mock .stats .title { margin-bottom: 6px; white-space: nowrap; }
+.tl-mock .stats div { display: grid; grid-template-columns: 64px auto; }
+.tl-mock .stats dd { margin: 0; font-variant-numeric: tabular-nums; }
+.tl-mock .stats dl { margin: 0; }
+
+/* Start screen over the empty viewport */
+.tl-mock .start { position: absolute; inset: 0; top: 30px; margin: auto; width: 300px; height: max-content; display: grid; justify-items: center; gap: 8px; padding: 22px 24px; background: #2b2b2bee; border: 1px solid #1a1a1a; border-radius: 8px; box-shadow: 0 10px 30px #0007; text-align: center; }
+.tl-mock .start img { width: 44px; height: 44px; }
+.tl-mock .start h3 { margin: 0; font-size: 15px; font-weight: 700; }
+.tl-mock .start p { margin: 0; color: var(--text); }
+.tl-mock .start p.muted { color: var(--muted); font-size: 11px; }
+.tl-mock .start > button { padding: 4px 16px; }
+.tl-mock .start-recent { display: grid; gap: 3px; width: 100%; margin-top: 4px; }
+.tl-mock .start-recent small { color: var(--muted); text-align: left; }
+.tl-mock .start-recent button { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+
 .tl-mock .textures { grid-area: tex; }
+.tl-mock .tex-head { display: flex; align-items: center; gap: 6px; }
+.tl-mock .tex-head button { padding: 0 8px; }
 .tl-mock .tiles { display: flex; gap: 8px; padding: 8px; }
-.tl-mock figure { margin: 0; width: 124px; flex: none; }
+.tl-mock figure { margin: 0; width: 124px; flex: none; position: relative; }
+.tl-mock figure .edit { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; padding: 3px; border: 0; border-radius: 4px; background: #2b2b2bcc; }
+.tl-mock figure .edit.hot { background: var(--accent); }
+.tl-mock figure .edit svg { width: 100%; height: 100%; fill: none; stroke: var(--text); stroke-width: 1.8; stroke-linejoin: round; }
 .tl-mock .thumb, .tl-mock .placeholder { width: 124px; height: 124px; display: block; border-radius: 3px; background: #1f1f1f; border: 2px solid transparent; background-size: cover; }
 .tl-mock figure.selected .thumb, .tl-mock figure.selected .placeholder { border-color: var(--select); box-shadow: 0 0 0 2px var(--select); }
 .tl-mock figure.selected figcaption { color: var(--select); }
@@ -99,7 +124,6 @@
 .tl-mock figcaption { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tl-mock figcaption small { display: block; color: var(--muted); font-size: inherit; }
 .tl-mock .missing figcaption { color: var(--error); }
-.tl-mock .tiles-sep { flex: none; align-self: stretch; writing-mode: vertical-rl; transform: rotate(180deg); padding: 0 4px; border-right: 2px solid #4aa3df; color: #4aa3df; font-size: 11px; text-align: center; white-space: nowrap; }
 
 .tl-mock .tile-actions { display: flex; gap: 2px; margin-top: 3px; }
 .tl-mock .tile-actions button { flex: 1; padding: 1px 0; font-size: 11px; }
@@ -107,3 +131,15 @@
 
 .tl-mock .status { grid-area: status; display: flex; align-items: center; padding: 0 10px; background: var(--header); color: var(--muted); }
 .tl-mock .notice { margin-left: auto; color: var(--select); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tl-mock .notice.busy { display: flex; align-items: center; gap: 6px; color: var(--text); }
+.tl-mock .spinner { width: 10px; height: 10px; border: 2px solid #666; border-top-color: var(--select); border-radius: 50%; }
+
+/* Save livery popup: the app's <dialog>, drawn in place with its backdrop */
+.tl-mock .backdrop { position: absolute; inset: 0; z-index: 30; display: grid; place-items: center; background: #0006; }
+.tl-mock .modal { min-width: 320px; display: grid; gap: 8px; padding: 10px 12px 12px; border: 1px solid #1a1a1a; border-radius: 6px; background: var(--panel); box-shadow: 0 10px 30px #000a; }
+.tl-mock .modal h3 { margin: 0; font-size: 12px; font-weight: 600; }
+.tl-mock .modal label { display: grid; gap: 4px; color: var(--muted); }
+.tl-mock .modal .input { color: var(--text); background: #1d1d1d; border: 1px solid var(--accent); border-radius: 4px; padding: 3px 6px; min-height: 22px; }
+.tl-mock .modal .note { margin: 0; color: var(--muted); }
+.tl-mock .modal .actions { display: flex; justify-content: flex-end; gap: 6px; }
+.tl-mock .modal .actions button { min-width: 72px; }

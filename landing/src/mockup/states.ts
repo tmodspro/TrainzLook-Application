@@ -29,6 +29,9 @@ const textures: MockTexture[] = [
 
 const dir = "D:\\Trainz\\TKK-8500\\kuid 1047762 100199 IR - TC1-8500 K1 1 8\\body";
 
+// Open Recent labels as the app writes them (file name · folder): meshes from the same TKK-8500 set.
+export const RECENT = ["body.im · body", "int.im · int", "masinis.im · masinis"];
+
 export const base: MockState = {
   path: `${dir}\\body.im`,
   parts: [
@@ -49,6 +52,10 @@ export const base: MockState = {
   issues: [{ level: "warn", text: "panto_a.jpg is not used by this mesh" }],
   textures,
   status: "12 parts · 62,974 verts · 50,614 tris · 12 images in folder · watching folder",
+  // Statistics overlay; edges counted the way app/src/stats.ts does (unique per part) from the same body.im.
+  stats: { objects: 12, vertices: 62974, edges: 105165, faces: 50614, triangles: 50614 },
+  recent: RECENT,
+  liveries: 1,
   viewport: "/captures/tc1-material.webp",
 };
 
@@ -59,38 +66,25 @@ export const hero: MockState = { ...base, notice: "Reloaded 1.jpg" };
 
 export const replaced = `Replaced 1.jpg · backup: ${dir}\\.trainzlook-backup\\1792563281072-1.jpg`;
 
-// Hovering 1.jpg tints every part that uses it (the real capture), right after a Replace.
+// 1.m.onetex clicked in the Outliner: the row, its tile and the parts using 1.jpg light up (the real capture), and
+// the Statistics overlay counts the selection.
 export const tour: MockState = {
   ...base,
+  parts: base.parts.map((p, i) => (i === 0 ? { ...p, selected: true } : p)),
   textures: select("1.jpg", { backups: 1 }),
+  stats: { ...base.stats!, selected: ["1.jpg", 1] },
   viewport: "/captures/tc1-highlight.webp",
-  notice: replaced,
+  notice: "1.m.onetex → 1.jpg",
 };
 
 // Scene states. The edited livery is a hue-shifted 1.jpg made for the demo; the app reloaded it from disk.
-export const empty: MockState = { parts: [], textures: [], status: "Ready", viewport: "/captures/tc1-empty.webp" };
+export const empty: MockState = { parts: [], textures: [], status: "Ready", recent: RECENT, viewport: "/captures/tc1-empty.webp" };
 
 export const livery: MockState = {
   ...base,
   textures: textures.map((t) => (t.name === "1.jpg" ? { ...t, swatch: "url(/captures/tex-1-livery.webp) center / cover" } : t)),
   viewport: "/captures/tc1-livery.webp",
   notice: "Reloaded 1.jpg",
-};
-
-// masinis.im merged into the cab: values as the app showed them after Import .im…
-export const merged: MockState = {
-  ...base,
-  viewport: "/captures/tc1-import.webp",
-  notice: "Move / Rotate / Scale: toolbar or G / R / S · Ctrl+Z undoes",
-  imported: {
-    name: "masinis.im",
-    mode: "translate",
-    position: [0.851, -8.8573, 1.9189],
-    rotation: [0, 0, 0],
-    scale: [1, 1, 1],
-    parts: ["masinis.m.onetex"],
-    textures: [tex("masiniskin.jpg", 1, "4096×4096")],
-  },
 };
 
 export const validation: MockState = {

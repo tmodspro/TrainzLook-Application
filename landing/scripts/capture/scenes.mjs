@@ -1,7 +1,6 @@
 // Captures every app state the Remotion scenes need, from the real app in one session (see README.md).
 // Env: MESH (a scratch COPY of the car's body.im: Replace writes backups beside it), LIVERY (an edited 1.jpg kept
-// outside the mesh folder), IMPORT (a static .im to merge), PLACE ("x,y,z" location for the import), plus the
-// DX/DY/WHEEL camera of cam.mjs.
+// outside the mesh folder), plus the DX/DY/WHEEL camera of cam.mjs. (Merge is hidden in the app, so no import step.)
 import { copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -9,7 +8,7 @@ import { fileURLToPath } from "node:url";
 import { canvas, open, orbit, park, reload } from "./cam.mjs";
 
 const OUT = fileURLToPath(new URL("../../public/captures", import.meta.url));
-const { MESH, LIVERY, IMPORT, PLACE = "" } = process.env;
+const { MESH, LIVERY } = process.env;
 
 export default async function scenes(ctx) {
   const { send, evaluate, sleep, save } = ctx;
@@ -95,34 +94,10 @@ export default async function scenes(ctx) {
   await shot("tc1-wireframe");
   await click(`[...document.querySelectorAll('.area-header button')].find(b => b.textContent === 'Material')`);
 
-  dialogPath = IMPORT;
-  await click(`[...document.querySelectorAll('.topbar button')].find(b => b.textContent.startsWith('Import'))`);
-  await park(ctx);
-  await sleep(5000);
-  data.importNotice = await notice();
-  // Type the location into the Blender-style fields: click (no drag) opens the editor, Enter commits.
-  for (const [axis, value] of PLACE.split(",").entries()) {
-    if (value === "") continue;
-    await click(`document.querySelectorAll('.xf-group')[0].querySelectorAll('.numbody')[${axis}]`);
-    await sleep(150);
-    await key("a", "KeyA", 65, 2);
-    await send("Input.insertText", { text: value });
-    await key("Enter", "Enter", 13);
-    await sleep(200);
-  }
-  await park(ctx);
-  await sleep(800);
-  await shot("tc1-import");
-  const imported = await evaluate(`[...document.querySelectorAll('.tiles-sep ~ figure:not(.missing)')].map(f => f.querySelector('figcaption').firstChild.textContent)`);
-  for (const name of imported) await thumb(name, `tex-${name.replace(/\.[^.]+$/, "")}`);
-
+  // UI text the mockup copies: the status bar and the Statistics overlay.
   Object.assign(data, await evaluate(`({
-    xf: [...document.querySelectorAll('.xf-group')].map(g => [...g.querySelectorAll('.numbody span:last-child')].map(s => s.textContent)),
-    importedParts: [...document.querySelectorAll('.imported-parts li')].map(li => li.textContent),
-    importedHead: document.querySelector('.imported-head')?.textContent,
-    importedTiles: [...document.querySelectorAll('.tiles figure')].map(f => f.querySelector('figcaption').textContent),
-    notice: document.querySelector('.notice')?.textContent,
     status: document.querySelector('.status').textContent,
+    stats: document.querySelector('.stats')?.innerText,
   })`));
   console.log(JSON.stringify(data, null, 1));
   const win = await send("Page.captureScreenshot", { format: "png" });
