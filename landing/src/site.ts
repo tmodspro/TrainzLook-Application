@@ -7,7 +7,7 @@ export const site = {
   tagline: "Lihat tekstur Trainz-mu berubah secara realtime",
   description:
     "Viewer mesh .im bergaya Blender untuk repainter Trainz. Simpan tekstur dari Photoshop atau GIMP, keretanya langsung berubah. Gratis untuk Windows, dari INDORAILS.",
-  url: null as string | null, // site origin, e.g. "https://trainzlook.example"; waits on hosting (docs/03-landing-page.md §11 #3)
+  url: "https://trainzlook.web.id" as string | null, // site origin: OG image, sitemap and JSON-LD need absolute URLs
   // shortcut: null = not decided yet (docs/03-landing-page.md §11), the page then says the link is coming; fill from the real release build.
   download: {
     version: "0.1.0",

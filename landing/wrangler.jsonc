@@ -1,0 +1,11 @@
+// Cloudflare Worker that serves the static export in out/ (npm run build) at trainzlook.web.id.
+{
+  "name": "trainzlook",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./out",
+    // out/404.html for unknown paths; /lisensi is served from lisensi.html.
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
